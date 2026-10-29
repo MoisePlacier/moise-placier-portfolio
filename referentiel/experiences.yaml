@@ -16,12 +16,17 @@ experiences:
   effectif_analytique:
     valeur: 3350
     unite: patients
+    perimetre: Étude du sédiment urinaire uniquement (inserm_inference).
   type: stage
   secteurs:
   - sante_recherche
   - biostatistique
   realisations:
+  # Rapport privé consulté : p. 3-5 (pages PDF 10-12). Aucun fichier source publié.
   - id: inserm_pipeline
+    attribution: >-
+      Développement analytique réalisé dans le cadre du stage ; règles de plausibilité
+      et critères cliniques définis avec l’équipe clinique.
     description_factuelle: 
       Conception et développement d'une chaîne de
       traitement reproductible pour l'intégration,
@@ -43,7 +48,7 @@ experiences:
       d'éligibilité et les fenêtres temporelles
       propres à chaque protocole. Paramétrage des
       règles d'extraction dans des fichiers YAML
-      versionnés et documentation des variables utilisés,
+      versionnés et documentation des variables utilisées,
       transformations et traitements.
     
     mobilisations:
@@ -157,9 +162,20 @@ experiences:
       competence_id: recherche_clinique
     - id: mob_inserm_inference_r
       competence_id: r
+  # Rapport privé : p. 1, 4, 14-15, 19-20 (pages PDF 8, 11, 21-22, 26-27).
   - id: inserm_methodologie
-    description_factuelle: Conception et documentation de décisions méthodologiques pour une recherche reproductible.
-    perimetre_ou_resultats: Propositions nouvelles concernant l’architecture analytique, la sélection des variables, la lisibilité, la robustesse et la réutilisation par l’équipe.
+    titre: Conception méthodologique et documentation d’une chaîne d’analyse
+    description_factuelle: >-
+      Conception et documentation des choix reliant préparation des données,
+      modélisation longitudinale et analyse d’associations en recherche clinique.
+    attribution: >-
+      Autonomie méthodologique décrite dans le mémoire, sous co-encadrement scientifique ;
+      définition et interprétation cliniques discutées avec les cliniciens.
+    perimetre_ou_resultats: >-
+      Formalisation de règles d’extraction versionnées et de dictionnaires de variables.
+      Explicitation des hypothèses, des compromis de calcul et des limites liées aux
+      mesures irrégulières, aux données manquantes et à l’interprétation de marqueurs
+      indirects. Distinction entre association conditionnelle et relation causale.
     mobilisations:
     - id: mob_inserm_methodologie_initiative
       competence_id: initiative
@@ -171,20 +187,143 @@ experiences:
       competence_id: documentation
     - id: mob_inserm_methodologie_reproductibilite
       competence_id: reproductibilite
+  # Rapport privé : p. 5-11, 19-20 (pages PDF 12-18, 26-27).
   - id: inserm_dynamique
-    description_factuelle: Adaptation d’un modèle dynamique latent en temps continu pour les trajectoires de créatinine.
-    perimetre_ou_resultats: Travail de modélisation longitudinale utilisant des équations différentielles stochastiques, destiné à caractériser la récupération rénale; projet de publication potentiel.
+    titre: Modélisation de trajectoires irrégulières en temps continu
+    description_factuelle: >-
+      Adaptation et implémentation sous R avec ctsem d’un modèle hiérarchique
+      à état latent en temps continu pour caractériser les trajectoires de créatinine.
+    attribution: >-
+      Implémentation et analyses réalisées dans le cadre du stage à partir du package
+      ctsem ; choix méthodologiques sous co-encadrement et discutés avec l’équipe clinique.
+    perimetre_ou_resultats: >-
+      Exploitation des intervalles réels entre observations, sans interpolation préalable.
+      Modélisation sur l’échelle logarithmique d’une dynamique stochastique de retour
+      vers un équilibre, avec distinction entre bruit de processus et bruit d’observation.
+      Estimation par optimisation, sans échantillonnage MCMC. Transformation des paramètres
+      en caractéristiques interprétables de vitesse, de niveau d’équilibre, de variabilité
+      et de temps d’entrée dans une bande d’équilibre. Ce dernier ne constitue pas un temps
+      de récupération clinique observé. Diagnostics prédictifs et analyses de sensibilité
+      pour examiner les limites de la représentation monophasique.
     mobilisations:
     - id: mob_inserm_dynamique_modelisation_dynamique
       competence_id: modelisation_dynamique
+      ressources:
+      - ressource_id: modeles_mixtes
+        manifestations:
+        - id: man_inserm_dynamique_hierarchie
+          description: >-
+            Paramètres propres aux segments estimés dans une structure hiérarchique
+            multivariée, avec régularisation partielle et corrélations entre paramètres.
+      - ressource_id: feature_engineering
+        manifestations:
+        - id: man_inserm_dynamique_indicateurs
+          description: >-
+            Transformation des paramètres dynamiques en demi-vie de retour vers l’équilibre,
+            écart au niveau basal, intensité des fluctuations et temps d’entrée dans une bande d’équilibre.
     - id: mob_inserm_dynamique_donnees_longitudinales
       competence_id: donnees_longitudinales
     - id: mob_inserm_dynamique_r
       competence_id: r
     - id: mob_inserm_dynamique_recherche_clinique
       competence_id: recherche_clinique
+    - id: mob_inserm_dynamique_validation_modeles
+      competence_id: validation_modeles
+      ressources:
+      - ressource_id: evaluation_robustesse
+        manifestations:
+        - id: man_inserm_dynamique_diagnostics
+          description: >-
+            Diagnostics à un pas par PIT, innovations standardisées et couverture prédictive ;
+            réplication de trajectoires aux temps observés et simulation-réestimation des paramètres.
+      - ressource_id: cross_validation
+        manifestations:
+        - id: man_inserm_dynamique_validation_patients
+          description: >-
+            Validation croisée à cinq folds avec patients entiers laissés de côté et réajustement
+            du modèle, décrite dans le mémoire ; performances chiffrées non détaillées dans celui-ci.
+  # Rapport privé : p. 11-13 (pages PDF 18-20).
+  - id: inserm_scores
+    titre: Construction et évaluation de scores à partir de données mixtes
+    description_factuelle: >-
+      Construction de scores synthétiques par analyse factorielle de données cliniques
+      quantitatives et qualitatives, regroupées en blocs définis a priori par les cliniciens.
+    attribution: >-
+      Mise en œuvre analytique dans le cadre du stage ; définition des blocs et choix
+      des agrégations cliniques attribués à l’équipe clinique dans le mémoire.
+    perimetre_ou_resultats: >-
+      ACP centrée-réduite ou FAMD selon la nature des variables, avec FactoMineR et
+      imputation factorielle par missMDA. Orientation et standardisation des scores.
+      Réestimation de l’imputation et des axes par bootstrap de patients, alignement
+      des signes et évaluation de la stabilité des classements, de l’inertie et des
+      contributions des variables. Les scores sont des représentations statistiques
+      de domaines cliniques et ne démontrent pas une étiologie.
+    mobilisations:
+    - id: mob_inserm_scores_pca
+      competence_id: pca
+      ressources:
+      - ressource_id: feature_engineering
+        manifestations:
+        - id: man_inserm_scores_orientation
+          description: >-
+            Construction de scores continus à partir de la première composante, avec
+            orientation clinique, alignement des signes entre réplications et standardisation.
+    - id: mob_inserm_scores_donnees_manquantes
+      competence_id: donnees_manquantes
+      ressources:
+      - ressource_id: r
+        manifestations:
+        - id: man_inserm_scores_imputation
+          description: >-
+            Imputation par imputePCA ou imputeFAMD ; réestimation dans chaque échantillon
+            bootstrap puis projection des observations sur les axes correspondants.
+    - id: mob_inserm_scores_evaluation_robustesse
+      competence_id: evaluation_robustesse
+    - id: mob_inserm_scores_collaboration
+      competence_id: collaboration
+  # Rapport privé : p. 14-15, 20 (pages PDF 21-22, 27).
+  - id: inserm_associations
+    titre: Analyse d’associations avec propagation conjointe de l’incertitude
+    description_factuelle: >-
+      Mise en relation de caractéristiques dynamiques estimées et de scores cliniques
+      reconstruits par régression à réponse multivariée, avec propagation de leur incertitude.
+    attribution: >-
+      Développement et analyse méthodologiques dans le cadre du stage sous co-encadrement ;
+      interprétation clinique discutée avec l’équipe.
+    perimetre_ou_resultats: >-
+      Estimation d’associations conditionnelles aux autres scores et aux covariables.
+      Combinaison de tirages d’incertitude post-ajustement du CTSEM avec des réplications
+      bootstrap communes à tous les blocs de scores. Calcul d’intervalles empiriques
+      d’incertitude propagée, sans réestimation complète du CTSEM à chaque bootstrap.
+      Analyses de sensibilité à l’imputation, aux fenêtres temporelles, à la population
+      et à la spécification du modèle ; comparaison avec l’introduction des scores comme
+      modérateurs du CTSEM. Analyse observationnelle, sans interprétation causale.
+    mobilisations:
+    - id: mob_inserm_associations_regression
+      competence_id: regression
+      ressources:
+      - ressource_id: biostatistique
+        manifestations:
+        - id: man_inserm_associations_multivariees
+          description: >-
+            Régression à réponse multivariée avec covariables d’ajustement et covariance
+            résiduelle entre les caractéristiques de récupération.
+    - id: mob_inserm_associations_propagation_incertitude
+      competence_id: propagation_incertitude
+      ressources:
+      - ressource_id: statistiques
+        manifestations:
+        - id: man_inserm_associations_repliques
+          description: >-
+            Couplage de tirages post-ajustement et de bootstraps de patients communs aux
+            blocs pour préserver leur dépendance et résumer l’incertitude des associations.
+    - id: mob_inserm_associations_evaluation_robustesse
+      competence_id: evaluation_robustesse
+    - id: mob_inserm_associations_critical_thinking
+      competence_id: critical_thinking
   points_a_confirmer:
-  - Répartition exacte des réalisations dans les deux axes scientifiques.
+  - Les méthodes détaillées d’inserm_inference nécessitent une source propre à cette première étude.
+  - Les performances hors échantillon du CTSEM restent à documenter avant toute valorisation chiffrée.
   resume: Analyse de données cliniques longitudinales pour étudier le pronostic et la récupération rénale après insuffisance rénale aiguë en réanimation.
 - id: exp_gsk_2024
   organisation: GlaxoSmithKline (GSK), Local Manufacturing Science and Technologies
