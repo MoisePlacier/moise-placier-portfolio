@@ -1,0 +1,26 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { byDomain, competenceUseCount } from "../lib/catalogue";
+
+const domains = byDomain();
+---
+
+<BaseLayout title="Compétences — Moïse Placier" description="Compétences mobilisées dans les expériences et projets de Moïse Placier.">
+  <section class="page-hero shell">
+    <span class="eyebrow">Compétences</span>
+    <h1>Des compétences ancrées dans les réalisations.</h1>
+    <p>Cette vue est générée à partir des mobilisations renseignées pour chaque expérience et projet.</p>
+  </section>
+  <section class="shell competence-groups">
+    {Object.entries(domains).map(([domain, skills]) => (
+      <article class="competence-group">
+        <h2>{domain}</h2>
+        <ul>
+          {skills.map((skill) => (
+            <li><span>{skill.nom}</span><small>{competenceUseCount(skill.id)} mobilisation{competenceUseCount(skill.id) > 1 ? "s" : ""}</small></li>
+          ))}
+        </ul>
+      </article>
+    ))}
+  </section>
+</BaseLayout>

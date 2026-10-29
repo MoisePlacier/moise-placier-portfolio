@@ -1,0 +1,42 @@
+---
+type Logo = {
+  alt: string;
+  src: string;
+  href: string;
+  key: string;
+};
+
+const { experienceId, variant = "directory" } = Astro.props as {
+  experienceId: string;
+  variant?: "directory" | "detail" | "gsk-hero" | "inserm-hero" | "normandie-hero";
+};
+
+const logosByExperience: Record<string, Logo[]> = {
+  exp_inserm_hug_2026: [
+    { key: "hug", src: "/organisations/hug.webp", alt: "Logo des Hôpitaux universitaires de Genève", href: "https://www.hug.ch/" },
+    { key: "inserm", src: "/organisations/inserm.png", alt: "Logo de l’Inserm", href: "https://www.inserm.fr/" }
+  ],
+  exp_gsk_2024: [
+    { key: "gsk", src: "/organisations/gsk.webp", alt: "Logo de GSK", href: "https://www.gsk.com/en-gb/" }
+  ],
+  exp_agriviva_2024_2025: [
+    { key: "cnp", src: "/organisations/cnp.webp", alt: "Logo Cuisinons nos paysages", href: "https://cuisinonsnospaysages.org/" },
+    { key: "agriviva", src: "/organisations/agriviva.png", alt: "Logo Agriviva", href: "https://www.agriviva.fr/" }
+  ],
+  exp_normandie_arome_2019_2025: [
+    { key: "normandie", src: "/organisations/normandie-aromes.png", alt: "Logo Normandie Arômes", href: "https://www.normandiearomes.fr/" }
+  ]
+};
+
+const logos = logosByExperience[experienceId] ?? [];
+---
+
+{logos.length > 0 && (
+  <div class:list={["experience-logos", `experience-logos--${variant}`, logos.length === 1 && "experience-logos--single"]} aria-label="Sites officiels des organisations">
+    {logos.map((logo) => (
+      <a class:list={["experience-logo", `experience-logo--${logo.key}`]} href={logo.href} target="_blank" rel="noopener noreferrer" aria-label={`${logo.alt} — site officiel (nouvel onglet)`}>
+        <img src={logo.src} alt={logo.alt} loading="lazy" />
+      </a>
+    ))}
+  </div>
+)}

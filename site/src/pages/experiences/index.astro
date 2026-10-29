@@ -1,0 +1,147 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import ContentVisual from "../../components/ContentVisual.astro";
+import ExperienceLogos from "../../components/ExperienceLogos.astro";
+import JourneyTimeline from "../../components/JourneyTimeline.astro";
+import { experiences, formations, formatPeriod, type CatalogueObject } from "../../lib/catalogue";
+
+type FormationLogo = { src: string; alt: string };
+type FormationAsset = { imageSrc: string; imageAlt: string; logos: FormationLogo[] };
+type FormationCardOverride = { title: string; subtitle: string; highlights?: string[]; titleHref?: string; subtitleHref?: string };
+
+const formationAssets: Record<string, FormationAsset> = {
+  formation_cpge: {
+    imageSrc: "/visuals/formation-chaptal.png",
+    imageAlt: "Bâtiment du lycée Chaptal à Paris",
+    logos: [{ src: "/organisations/formation-chaptal-logo.png", alt: "Logo du lycée Chaptal" }]
+  },
+  formation_ensat: {
+    imageSrc: "/visuals/formation-ensat.jpg",
+    imageAlt: "Campus de l’ENSAT à Toulouse",
+    logos: [{ src: "/organisations/formation-ensat-logo.png", alt: "Logo de Toulouse INP ENSAT" }]
+  },
+  formation_m2_data_bio: {
+    imageSrc: "/visuals/formation-institut-agro-rennes.jpg",
+    imageAlt: "Bâtiment Masure de l’Institut Agro Rennes-Angers",
+    logos: [
+      { src: "/organisations/formation-institut-agro-rennes-logo.png", alt: "Logo de l’Institut Agro Rennes-Angers" },
+      { src: "/organisations/formation-ensai-logo.webp", alt: "Logo de l’ENSAI" },
+      { src: "/organisations/formation-ehesp-logo.png", alt: "Logo de l’EHESP" },
+      { src: "/organisations/formation-rennes2-logo.webp", alt: "Logo de l’Université Rennes 2" }
+    ]
+  },
+  formation_erasmus_bht: {
+    imageSrc: "/visuals/formation-bht.jpg",
+    imageAlt: "Campus de la Berliner Hochschule für Technik",
+    logos: [{ src: "/organisations/formation-bht-logo.png", alt: "Logo de la Berliner Hochschule für Technik" }]
+  }
+};
+
+const formationCardOverrides: Partial<Record<string, FormationCardOverride>> = {
+  formation_m2_data_bio: {
+    title: "Master mathématiques Appliquées, Statistique - parcours Science des données pour la biologie",
+    subtitle: "Major de promotion ; moyenne : 16,6/20 | Mémoire de fin d’études : 18/20",
+    highlights: [],
+    titleHref: "https://www.institut-agro-rennes-angers.fr/formation/masters-phd-track/parcours-data-science-pour-la-biologie"
+  },
+  formation_erasmus_bht: {
+    title: "M.Sc. Data Science, Erasmus exchange semester",
+    subtitle: "Berliner Hochschule für Technik (BHT)",
+    highlights: ["average grade of 1.82, top 20% of all students."],
+    titleHref: "https://www.bht-berlin.de/m-ds"
+  },
+  formation_ensat: {
+    title: "Diplôme d'ingénieur Agronome",
+    subtitle: "École nationale supérieure agronomique de Toulouse (ENSAT)",
+    highlights: [],
+    subtitleHref: "https://www.ensat.fr/fr/index.html"
+  },
+  formation_cpge: {
+    title: "Classes préparatoires aux grandes écoles BCPST (Biologie, Chimie, Physique et Sciences de la Terre)",
+    subtitle: "Lycée Chaptal, Paris",
+    highlights: []
+  }
+};
+
+const formationOrder = ["formation_m2_data_bio", "formation_erasmus_bht", "formation_ensat", "formation_cpge"];
+const formationsById = new Map(formations.map((formation) => [formation.id, formation]));
+const formationCards = formationOrder
+  .map((id) => formationsById.get(id))
+  .filter((formation): formation is CatalogueObject => Boolean(formation));
+---
+
+<BaseLayout title="Parcours — Moïse Placier" description="Parcours professionnel et académique de Moïse Placier.">
+  <section class="shell parcours-page">
+    <header>
+      <span class="eyebrow">Parcours · 2020—2026</span>
+      <p class="parcours-intro">Un parcours construit entre l’agronomie, les processus industriels, les statistiques et la recherche scientifique.</p>
+    </header>
+    <JourneyTimeline />
+  </section>
+
+  <section class="shell experience-directory" aria-label="Liste des expériences">
+    <ol>
+      {experiences.map((experience, index) => (
+        <li id={`experience-${experience.id}`}>
+          <div class="experience-directory-row">
+            <a class="experience-directory-media" href={`/experiences/${experience.id}/`} aria-label={`Ouvrir l’expérience ${experience.organisation}`}>
+              <ContentVisual itemId={experience.id} />
+            </a>
+            <div class="experience-directory-panel">
+              <div class="experience-directory-content">
+                <div class="experience-directory-kicker">
+                  <span class="experience-directory-index">{String(index + 1).padStart(2, "0")}</span>
+                  <span class="experience-directory-meta">{formatPeriod(experience.periode)} · {experience.lieu}</span>
+                </div>
+                <h2><a class="experience-directory-title" href={`/experiences/${experience.id}/`}>{experience.organisation}</a></h2>
+                <p class="experience-directory-role">{experience.intitule_officiel}</p>
+                <p>{experience.resume}</p>
+              </div>
+              <aside class="experience-directory-aside" aria-label={`Identité visuelle de ${experience.organisation}`}>
+                <ExperienceLogos experienceId={experience.id} />
+              </aside>
+            </div>
+          </div>
+        </li>
+      ))}
+    </ol>
+  </section>
+
+  <section class="shell formation-directory" aria-label="Liste des formations">
+    <header class="formation-directory-heading">
+      <span class="eyebrow">Formations</span>
+    </header>
+    <ol>
+      {formationCards.map((formation, index) => {
+        const assets = formationAssets[formation.id];
+        const override = formationCardOverrides[formation.id];
+        const title = override?.title ?? formation.etablissement;
+        const subtitle = override?.subtitle ?? formation.intitule;
+        const highlights = override?.highlights ?? [formation.statut, ...(formation.resultats?.slice(0, 1) ?? [])].filter(Boolean);
+        return (
+          <li id={`formation-${formation.id}`}>
+            <article class="formation-directory-row">
+              <figure class="formation-directory-media">
+                <img src={assets.imageSrc} alt={assets.imageAlt} loading="lazy" decoding="async" />
+              </figure>
+              <div class="formation-directory-panel">
+                <div class="formation-directory-content">
+                  <div class="formation-directory-kicker">
+                    <span class="formation-directory-index">{String(index + 1).padStart(2, "0")}</span>
+                    <span class="formation-directory-meta">{formatPeriod(formation.periode)}</span>
+                  </div>
+                  <h3>{override?.titleHref ? <a href={override.titleHref} target="_blank" rel="noreferrer">{title}</a> : title}</h3>
+                  <p class="formation-directory-title">{override?.subtitleHref ? <a href={override.subtitleHref} target="_blank" rel="noreferrer">{subtitle}</a> : subtitle}</p>
+                  {highlights.length > 0 && <p class="formation-directory-highlights">{highlights.join(" · ")}</p>}
+                </div>
+                <aside class={`formation-directory-aside${assets.logos.length > 1 ? " formation-directory-aside--partners" : ""}`} aria-label={`Identité visuelle de ${title}`}>
+                  {assets.logos.map((logo) => <img src={logo.src} alt={logo.alt} loading="lazy" decoding="async" />)}
+                </aside>
+              </div>
+            </article>
+          </li>
+        );
+      })}
+    </ol>
+  </section>
+</BaseLayout>

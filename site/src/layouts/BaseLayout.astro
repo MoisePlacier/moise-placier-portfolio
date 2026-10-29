@@ -1,0 +1,57 @@
+---
+import "../styles/global.css";
+import { prestations } from "../lib/catalogue";
+
+interface Props {
+  title?: string;
+  description?: string;
+  bodyClass?: string;
+  headerBackHref?: string;
+}
+
+const {
+  title = "Moïse Placier — Ingénieur agronome",
+  description = "Portfolio professionnel de Moïse Placier.",
+  bodyClass = "",
+  headerBackHref = ""
+} = Astro.props;
+const pathname = Astro.url.pathname;
+---
+
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <title>{title}</title>
+  </head>
+  <body class={bodyClass}>
+    <header class="site-header">
+      <div class="site-header-inner">
+        <div class="header-home-actions">
+          <a class="monogram" href="/" aria-label="Accueil">MP</a>
+          {headerBackHref && <a class="header-back-link" href={headerBackHref}>↩ Retour au parcours</a>}
+        </div>
+        <nav aria-label="Navigation principale">
+          <a class:list={[{ active: pathname.startsWith("/prestations") }]} href="/prestations/">Prestations</a>
+          <a class:list={[{ active: pathname.startsWith("/experiences") }]} href="/experiences/">Parcours</a>
+          <a class:list={[{ active: pathname.startsWith("/projets") }]} href="/projets/">Projets</a>
+          <a class:list={[{ active: pathname.startsWith("/competences") }]} href="/competences/">Compétences</a>
+        </nav>
+        <a class="header-contact" href="/prestations/#contact">{prestations.appel_action.libelle} <span>↗</span></a>
+      </div>
+    </header>
+    <main>
+      <slot />
+    </main>
+    <footer class="site-footer">
+      <div class="site-footer-inner">
+        <span>Moïse Placier</span>
+        <span>{prestations.pied_de_page}</span>
+        <a href="mailto:moise.placier@gmail.com">moise.placier@gmail.com</a>
+        <a href="/mentions-legales/">Mentions légales & confidentialité</a>
+      </div>
+    </footer>
+  </body>
+</html>

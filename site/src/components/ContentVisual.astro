@@ -1,0 +1,66 @@
+---
+type Visual = {
+  src: string;
+  alt: string;
+};
+
+const { itemId, variant = "card" } = Astro.props as {
+  itemId: string;
+  variant?: "card" | "detail" | "gsk-hero" | "inserm-hero" | "normandie-hero";
+};
+
+const visualsByItem: Record<string, Visual> = {
+  exp_inserm_hug_2026: {
+    src: "/visuals/experience-inserm-hug.webp",
+    alt: "Analyse de données cliniques dans un environnement de réanimation"
+  },
+  exp_gsk_2024: {
+    src: "/visuals/experience-gsk.webp",
+    alt: "Environnement de production biopharmaceutique"
+  },
+  exp_agriviva_2024_2025: {
+    src: "/visuals/experience-agriviva.webp",
+    alt: "Conditionnement industriel de pois chiches"
+  },
+  exp_normandie_arome_2019_2025: {
+    src: "/visuals/experience-normandie-arome.webp",
+    alt: "Distillation d’huiles essentielles et analyse prédictive"
+  },
+  prj_protein_structure_2025: {
+    src: "/visuals/project-protein-structure.webp",
+    alt: "Passage d’une séquence protéique à sa structure repliée"
+  },
+  prj_crop_sentinel2_2025: {
+    src: "/visuals/project-crop-classification.gif",
+    alt: "Animation de séries temporelles Sentinel-2 sur des parcelles agricoles"
+  },
+  prj_populus_genomics_2026: {
+    src: "/visuals/project-populus-genomics.webp",
+    alt: "Tableau de bord d’analyses génomiques et phénotypiques sur le peuplier"
+  }
+};
+
+const visual = visualsByItem[itemId];
+const selectedVisual = variant === "gsk-hero" && itemId === "exp_gsk_2024"
+  ? {
+      src: "/visuals/experience-gsk-hero.webp",
+      alt: "Opératrice en salle blanche devant l’interface de pilotage d’un bioréacteur"
+    }
+  : variant === "inserm-hero" && itemId === "exp_inserm_hug_2026"
+    ? {
+        src: "/visuals/experience-inserm-hug-hero.webp",
+        alt: "Lit de réanimation et équipements de soins intensifs"
+      }
+  : variant === "normandie-hero" && itemId === "exp_normandie_arome_2019_2025"
+    ? {
+        src: "/visuals/experience-normandie-arome-hero.png",
+        alt: "Filtration d’huile essentielle dans une installation industrielle"
+      }
+  : visual;
+---
+
+{selectedVisual && (
+  <figure class:list={["content-visual", `content-visual--${variant}`, `content-visual--${itemId}`]}>
+    <img src={selectedVisual.src} alt={selectedVisual.alt} loading={variant === "detail" || variant === "gsk-hero" || variant === "inserm-hero" || variant === "normandie-hero" ? "eager" : "lazy"} decoding="async" />
+  </figure>
+)}

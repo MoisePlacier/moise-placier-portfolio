@@ -1,0 +1,42 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { catalogue, prestations } from "../lib/catalogue";
+
+const identity = catalogue.identite as Record<string, string>;
+const contactHref = `mailto:${identity.email}?subject=${encodeURIComponent(prestations.appel_action.objet_email)}`;
+---
+
+<BaseLayout title="Conseil & prestations — Moïse Placier" description={prestations.page.introduction}>
+  <section class="page-hero shell services-hero">
+    <span class="eyebrow">{prestations.page.surtitre}</span>
+    <h1>{prestations.page.titre}</h1>
+    <p>{prestations.page.introduction}</p>
+    <span class="services-availability">{prestations.disponibilite}</span>
+  </section>
+
+  <section class="shell service-directory" aria-label="Domaines de prestation">
+    {prestations.page.expertises.map((expertise, index) => (
+      <article id={expertise.id}>
+        <div class="service-directory-heading">
+          <span>0{index + 1}</span>
+          <h2>{expertise.titre}</h2>
+          <p>{expertise.resume}</p>
+        </div>
+        <ul>
+          {expertise.prestations.map((prestation) => <li>{prestation}</li>)}
+        </ul>
+      </article>
+    ))}
+  </section>
+
+  <section class="shell collaboration-panel" id="contact">
+    <div>
+      <span class="eyebrow">{prestations.page.modalites.titre}</span>
+      <h2>{prestations.page.modalites.conclusion}</h2>
+    </div>
+    <div>
+      <p>{prestations.page.modalites.texte}</p>
+      <a class="button button-light" href={contactHref}>{prestations.appel_action.libelle} <span>→</span></a>
+    </div>
+  </section>
+</BaseLayout>

@@ -1,0 +1,65 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { mentionsLegales } from "../lib/catalogue";
+
+const editeur = mentionsLegales.editeur;
+const contact = mentionsLegales.contact;
+---
+
+<BaseLayout title="Mentions légales — Moïse Placier EI" description="Mentions légales et informations de confidentialité de Moïse Placier EI.">
+  <section class="page-hero shell legal-hero">
+    <span class="eyebrow">Informations du site</span>
+    <h1>Mentions légales & confidentialité.</h1>
+    <p>Informations relatives à l’éditeur du site, à l’hébergement et au traitement des données personnelles.</p>
+  </section>
+
+  <section class="shell legal-directory" aria-label="Informations légales">
+    <article class="legal-block">
+      <span class="legal-index">01</span>
+      <div>
+        <h2>Éditeur du site</h2>
+        <dl class="legal-details">
+          <div><dt>Éditeur</dt><dd>{editeur.nom}</dd></div>
+          <div><dt>Forme</dt><dd>{editeur.forme_juridique}</dd></div>
+          {editeur.adresse && <div><dt>Adresse</dt><dd>{editeur.adresse}</dd></div>}
+          <div><dt>SIREN</dt><dd>{editeur.siren}</dd></div>
+          <div><dt>SIRET</dt><dd>{editeur.siret}</dd></div>
+          <div><dt>RNE</dt><dd>{editeur.rne}</dd></div>
+          <div><dt>APE</dt><dd>{editeur.ape}</dd></div>
+        </dl>
+      </div>
+    </article>
+
+    <article class="legal-block">
+      <span class="legal-index">02</span>
+      <div>
+        <h2>Contact & publication</h2>
+        <dl class="legal-details">
+          <div><dt>E-mail</dt><dd><a href={`mailto:${contact.email}`}>{contact.email}</a></dd></div>
+          <div><dt>Téléphone</dt><dd><a href={`tel:${contact.telephone.replace(/\s/g, "")}`}>{contact.telephone}</a></dd></div>
+          <div><dt>Directeur de publication</dt><dd>{mentionsLegales.directeur_publication}</dd></div>
+        </dl>
+        <p class="legal-activity">{editeur.activite}</p>
+      </div>
+    </article>
+  </section>
+
+  <section class="shell legal-hosting">
+    <span class="eyebrow">Hébergement</span>
+    <h2>{mentionsLegales.hebergement.statut}</h2>
+    <p>{mentionsLegales.hebergement.texte}</p>
+  </section>
+
+  <section class="shell legal-copy">
+    <article>
+      <span class="eyebrow">{mentionsLegales.donnees_personnelles.titre}</span>
+      <p>{mentionsLegales.donnees_personnelles.texte}</p>
+    </article>
+    <article>
+      <span class="eyebrow">{mentionsLegales.propriete_intellectuelle.titre}</span>
+      <p>{mentionsLegales.propriete_intellectuelle.texte}</p>
+    </article>
+  </section>
+
+  <p class="shell legal-update">Dernière mise à jour : {mentionsLegales.derniere_mise_a_jour}.</p>
+</BaseLayout>

@@ -1,0 +1,26 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import ContentVisual from "../../components/ContentVisual.astro";
+import { projets } from "../../lib/catalogue";
+---
+
+<BaseLayout title="Projets académiques — Moïse Placier" description="Projets académiques en données du vivant, géomatique et bioinformatique.">
+  <section class="page-hero shell">
+    <span class="eyebrow">Projets académiques</span>
+    <h1>Données du vivant, modélisation et apprentissage automatique.</h1>
+    <p>Des travaux collectifs présentés pour leur démarche, leurs résultats et les méthodes mobilisées.</p>
+  </section>
+  <section class="shell project-grid">
+    {projets.map((project, index) => (
+      <a class="project-card" href={`/projets/${project.id}/`}>
+        <ContentVisual itemId={project.id} />
+        <div class="project-card-content">
+          <span class="card-index">0{index + 1}</span>
+          <h2>{project.titre}</h2>
+          <p>{project.resume}</p>
+          <div class="project-meta"><span>{project.cadre}</span><b>→</b></div>
+        </div>
+      </a>
+    ))}
+  </section>
+</BaseLayout>

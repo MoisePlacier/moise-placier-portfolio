@@ -1,0 +1,67 @@
+---
+import type { GetStaticPaths } from "astro";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import ContentVisual from "../../components/ContentVisual.astro";
+import CropClassificationReport from "../../components/project-reports/CropClassificationReport.astro";
+import { manifestationsFor, projets, skillsFor, type CatalogueObject } from "../../lib/catalogue";
+
+export const getStaticPaths: GetStaticPaths = () => projets.map((project) => ({
+  params: { id: project.id },
+  props: { project }
+}));
+
+const { project } = Astro.props as { project: CatalogueObject };
+const hasCropTechnicalReport = project.id === "prj_crop_sentinel2_2025";
+const pageTitle = hasCropTechnicalReport
+  ? "Classification des cultures avec Sentinel-2 et Deep Learning — Moïse Placier"
+  : `${project.titre} — Moïse Placier`;
+const pageDescription = hasCropTechnicalReport
+  ? "Comment classifier des cultures à partir de séries temporelles Sentinel-2 : préparation des données, validation géographique et comparaison CNN spatio-temporel / XGBoost."
+  : project.resume;
+---
+
+<BaseLayout title={pageTitle} description={pageDescription}>
+  <section class="detail-hero shell">
+    <a class="back-link" href="/projets/">← Tous les projets</a>
+    <div class="detail-heading">
+      <div>
+        <span class="eyebrow">Projet académique · {project.date}</span>
+        <h1>{project.titre}</h1>
+      </div>
+      <p class="detail-summary">{project.resume}</p>
+    </div>
+    <ContentVisual itemId={project.id} variant="detail" />
+    <div class="context-line"><span>Cadre</span><p>{project.cadre}</p></div>
+  </section>
+
+  <section class="shell project-description">
+    <p>{project.description}</p>
+    {project.liens?.map((url: string) => <a class="text-link" href={url} target="_blank">Voir le dépôt associé <span>↗</span></a>)}
+  </section>
+
+  {hasCropTechnicalReport ? <CropClassificationReport /> : (
+    <section class="shell detail-content">
+      <div class="detail-intro">
+        <span class="eyebrow">Travaux réalisés</span>
+        <h2>Approche et résultats.</h2>
+      </div>
+      <div class="realisation-list">
+        {project.realisations.map((realisation: any, index: number) => {
+          const skills = skillsFor(realisation);
+          const manifestations = manifestationsFor(realisation);
+          return (
+            <article class="realisation">
+              <span class="realisation-number">{String(index + 1).padStart(2, "0")}</span>
+              <div>
+                <h3>{realisation.description_factuelle}</h3>
+                <p>{realisation.perimetre_ou_resultats}</p>
+                {manifestations.length > 0 && <div class="manifestation"><span>Illustration</span>{manifestations.map((item) => <p>{item}</p>)}</div>}
+                <ul class="tag-list">{skills.map((skill) => <li>{skill.nom}</li>)}</ul>
+              </div>
+            </article>
+          );
+        })}
+      </div>
+    </section>
+  )}
+</BaseLayout>

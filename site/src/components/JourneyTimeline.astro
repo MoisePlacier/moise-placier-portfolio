@@ -1,0 +1,461 @@
+---
+import { scaleUtc } from "d3-scale";
+import { experiences, formations, formatPeriod } from "../lib/catalogue";
+
+type PresencePhysique = {
+  periode: { debut: string | number; fin: string | number };
+  lieu: string;
+};
+
+type VisualIdentity = {
+  brand: string;
+  mark: string;
+  label: string;
+  labelLines?: string[];
+  level?: number;
+};
+
+const visualIdentities: Record<string, VisualIdentity> = {
+  formation_cpge: { brand: "chaptal", mark: "CP", label: "BCPST", level: 1 },
+  formation_ensat: { brand: "ensat", mark: "EA", label: "ENSAT", level: 1 },
+  formation_erasmus_bht: { brand: "bht", mark: "BHT", label: "Berlin", level: 0 },
+  formation_m2_data_bio: { brand: "institut-agro", mark: "M2", label: "Double diplôme : master data science", labelLines: ["Double diplôme :", "master data science"], level: 0 },
+  exp_normandie_arome_2019_2025: { brand: "normandie", mark: "NA", label: "Normandie Arôme" },
+  exp_gsk_2024: { brand: "gsk", mark: "GSK", label: "GSK" },
+  exp_agriviva_2024_2025: { brand: "agriviva", mark: "A", label: "Agriviva" },
+  exp_inserm_hug_2026: { brand: "hug", mark: "HUG", label: "INSERM · HUG" }
+};
+
+function startOfPeriod(value: string | number | undefined): Date {
+  const [yearText, monthText] = String(value ?? "").split("-");
+  const year = Number(yearText);
+  const month = monthText ? Number(monthText) - 1 : 0;
+  return new Date(Date.UTC(year, month, 1));
+}
+
+function endOfPeriodExclusive(value: string | number | undefined): Date {
+  const [yearText, monthText] = String(value ?? "").split("-");
+  const year = Number(yearText);
+  return new Date(Date.UTC(year, monthText ? Number(monthText) : 12, 1));
+}
+
+const rawExperienceSegments = experiences.flatMap((experience) =>
+  ((experience.periodes_presence_physique ?? []) as PresencePhysique[]).map((presence, index) => ({
+    id: `${experience.id}-${index + 1}`,
+    parentId: experience.id,
+    periode: presence.periode,
+    lieu: presence.lieu,
+    startDate: startOfPeriod(presence.periode.debut),
+    endDate: endOfPeriodExclusive(presence.periode.fin),
+    title: experience.organisation,
+    subtitle: experience.intitule_officiel,
+    summary: experience.resume
+  }))
+);
+
+const rawFormationSegments = formations.map((formation) => ({
+    id: formation.id,
+    parentId: formation.id,
+    periode: formation.periode,
+    lieu: formation.etablissement,
+    startDate: startOfPeriod(formation.periode.debut),
+    endDate: endOfPeriodExclusive(formation.periode.fin),
+    title: formation.intitule,
+    subtitle: formation.etablissement,
+    summary: [formation.statut, formation.resultats?.[0]].filter(Boolean).join(" · ") || "Formation suivie."
+  }));
+
+const rawTimelineItems = [...rawFormationSegments, ...rawExperienceSegments];
+const earliestStart = new Date(Math.min(...rawTimelineItems.map((item) => item.startDate.getTime())));
+const latestEnd = new Date(Math.max(...rawTimelineItems.map((item) => item.endDate.getTime())));
+const firstYear = earliestStart.getUTCFullYear();
+const finalYearExclusive = latestEnd.getUTCFullYear() + 1;
+const scaleStart = earliestStart;
+const scaleEnd = new Date(Date.UTC(finalYearExclusive, 0, 1));
+const timelineTicks = [
+  { label: "Sept. 2020", date: scaleStart },
+  ...Array.from({ length: finalYearExclusive - firstYear - 2 }, (_, index) => {
+    const year = firstYear + index + 2;
+    return { label: String(year), date: new Date(Date.UTC(year, 0, 1)) };
+  })
+];
+const axisWidth = Math.max(960, (finalYearExclusive - firstYear) * 136);
+const annotationGutter = 112;
+const timelineWidth = axisWidth + annotationGutter;
+const timelineStartInset = 28;
+const timelineScale = scaleUtc().domain([scaleStart, scaleEnd]).range([timelineStartInset, axisWidth]);
+
+const formationSegments = rawFormationSegments.map((item) => ({
+  ...item,
+  x: timelineScale(item.startDate),
+  width: timelineScale(item.endDate) - timelineScale(item.startDate)
+}));
+
+const experienceSegments = rawExperienceSegments.map((item) => ({
+  ...item,
+  xStart: timelineScale(item.startDate),
+  xEnd: timelineScale(item.endDate)
+}));
+
+type TagRectangle = { left: number; top: number; width: number; height: number };
+type PositionedTag = (typeof experienceSegments)[number] & {
+  tagWidth: number;
+  tagHeight: number;
+  tagCenter: number;
+  tagTop: number;
+  row: number;
+};
+
+type PositionedExperience = PositionedTag & {
+  tooltipX: number;
+  tooltipY: number;
+  tooltipWidth: number;
+  tooltipHeight: number;
+  titleLines: string[];
+  roleLines: string[];
+  contextLines: string[];
+  summaryLines: string[];
+  titleY: number;
+  roleY: number;
+  contextY: number;
+  summaryY: number;
+  linkY: number;
+};
+
+type PositionedFormation = (typeof formationSegments)[number] & {
+  cardTop: number;
+  cardHeight: number;
+  tooltipX: number;
+  tooltipY: number;
+  tooltipWidth: number;
+  tooltipHeight: number;
+  titleLines: string[];
+  roleLines: string[];
+  contextLines: string[];
+  summaryLines: string[];
+  titleY: number;
+  roleY: number;
+  contextY: number;
+  summaryY: number;
+};
+
+const TAG_HEIGHT = 28;
+const TAG_TOP = 88;
+const TAG_GAP = 13;
+const TAG_SIDE_PADDING = 12;
+const MAX_HORIZONTAL_DODGE = 196;
+const dodgeOffsets = [0, -32, 32, -64, 64, -96, 96, -132, 132, 160, 192];
+const FORMATION_CARD_HEIGHT = 62;
+const FORMATION_BASE_TOP = 34;
+const FORMATION_LEVEL_GAP = 54;
+// Ancrage constant côté étiquette : l'équivalent d'un demi-mois sur l'échelle partagée.
+const nextMonth = new Date(Date.UTC(scaleStart.getUTCFullYear(), scaleStart.getUTCMonth() + 1, 1));
+const RIBBON_TAG_BASE_WIDTH = Math.abs(timelineScale(nextMonth) - timelineScale(scaleStart)) / 2;
+
+function estimateTagWidth(label: string): number {
+  return Math.max(52, Math.ceil(label.length * 7.2 + 24));
+}
+
+function intersects(left: TagRectangle, right: TagRectangle): boolean {
+  return left.left < right.left + right.width
+    && left.left + left.width > right.left
+    && left.top < right.top + right.height
+    && left.top + left.height > right.top;
+}
+
+function clamp(value: number, min: number, max: number): number {
+  return Math.min(Math.max(value, min), max);
+}
+
+function layoutExperienceTags(segments: typeof experienceSegments): PositionedTag[] {
+  const placed: PositionedTag[] = [];
+  const ordered = [...segments].sort((left, right) => left.xStart - right.xStart || left.xEnd - right.xEnd);
+
+  for (const segment of ordered) {
+    const tagWidth = estimateTagWidth(visualIdentities[segment.parentId].label);
+    const idealCenter = (segment.xStart + segment.xEnd) / 2;
+    let position: PositionedTag | undefined;
+
+    for (let row = 0; row < ordered.length && !position; row += 1) {
+      const tagTop = TAG_TOP + row * (TAG_HEIGHT + TAG_GAP);
+      for (const offset of dodgeOffsets) {
+        if (Math.abs(offset) > MAX_HORIZONTAL_DODGE) continue;
+        const tagCenter = clamp(idealCenter + offset, tagWidth / 2 + TAG_SIDE_PADDING, timelineWidth - tagWidth / 2 - TAG_SIDE_PADDING);
+        const rectangle = { left: tagCenter - tagWidth / 2, top: tagTop, width: tagWidth, height: TAG_HEIGHT };
+        if (!placed.some((candidate) => intersects(rectangle, {
+          left: candidate.tagCenter - candidate.tagWidth / 2,
+          top: candidate.tagTop,
+          width: candidate.tagWidth,
+          height: candidate.tagHeight
+        }))) {
+          position = { ...segment, tagWidth, tagHeight: TAG_HEIGHT, tagCenter, tagTop, row };
+          break;
+        }
+      }
+    }
+
+    if (!position) throw new Error(`Impossible de placer le tag de l’expérience ${segment.parentId}.`);
+    placed.push(position);
+  }
+
+  return placed;
+}
+
+function wrapText(text: string, maxCharacters: number): string[] {
+  const words = text.split(/\s+/).filter(Boolean);
+  const lines: string[] = [];
+  let line = "";
+  for (const word of words) {
+    const next = line ? `${line} ${word}` : word;
+    if (next.length > maxCharacters && line) {
+      lines.push(line);
+      line = word;
+    } else line = next;
+  }
+  if (line) lines.push(line);
+  return lines;
+}
+
+// Les formations utilisent le même panneau SVG que les expériences : aucune carte HTML
+// ne peut alors rogner l'infobulle sur les formats étroits.
+const positionedFormations: PositionedFormation[] = formationSegments.map((item) => {
+  const visual = visualIdentities[item.parentId];
+  const cardTop = FORMATION_BASE_TOP + (visual.level ?? 0) * FORMATION_LEVEL_GAP;
+  const titleLines = wrapText(item.title, 28);
+  const roleLines = wrapText(item.subtitle, 42);
+  const contextLines = wrapText(formatPeriod(item.periode), 46);
+  const summaryLines = wrapText(item.summary, 48);
+  const tooltipWidth = 348;
+  const titleY = 46;
+  const roleY = titleY + titleLines.length * 21 + 5;
+  const contextY = roleY + roleLines.length * 15 + 6;
+  const summaryY = contextY + contextLines.length * 15 + 8;
+  const tooltipHeight = summaryY + summaryLines.length * 15 + 17;
+  return {
+    ...item,
+    cardTop,
+    cardHeight: FORMATION_CARD_HEIGHT,
+    tooltipX: clamp(item.x + item.width / 2 - tooltipWidth / 2, 8, timelineWidth - tooltipWidth - 8),
+    tooltipY: cardTop + FORMATION_CARD_HEIGHT + 12,
+    tooltipWidth,
+    tooltipHeight,
+    titleLines,
+    roleLines,
+    contextLines,
+    summaryLines,
+    titleY,
+    roleY,
+    contextY,
+    summaryY
+  };
+});
+
+const positionedExperiences: PositionedExperience[] = layoutExperienceTags(experienceSegments).map((item) => {
+  // Les titres utilisent la police sérif, plus large : cette limite évite toute sortie du panneau.
+  const titleLines = wrapText(item.title, 28);
+  const roleLines = wrapText(item.subtitle, 42);
+  const contextLines = wrapText(`${formatPeriod(item.periode)} · ${item.lieu}`, 46);
+  const summaryLines = wrapText(item.summary, 48);
+  const tooltipWidth = 348;
+  const titleY = 46;
+  const roleY = titleY + titleLines.length * 21 + 5;
+  const contextY = roleY + roleLines.length * 15 + 6;
+  const summaryY = contextY + contextLines.length * 15 + 8;
+  const linkY = summaryY + summaryLines.length * 15 + 19;
+  const tooltipHeight = linkY + 17;
+  return {
+    ...item,
+    tooltipX: clamp(item.tagCenter - tooltipWidth / 2, 8, timelineWidth - tooltipWidth - 8),
+    // Le panneau s'ouvre au-dessus de l'axe, sans agrandir la zone basse de la frise.
+    tooltipY: -(tooltipHeight + 12),
+    tooltipWidth,
+    tooltipHeight,
+    titleLines,
+    roleLines,
+    contextLines,
+    summaryLines,
+    titleY,
+    roleY,
+    contextY,
+    summaryY,
+    linkY
+  };
+});
+const experienceTooltipExtent = Math.max(154, ...positionedExperiences.map((item) => -item.tooltipY + 8));
+const experienceLowerExtent = Math.max(154, ...positionedExperiences.map((item) => item.tagTop + item.tagHeight + 16));
+const experienceSvgHeight = experienceTooltipExtent + experienceLowerExtent;
+const journeyMinHeight = Math.max(490, experienceLowerExtent * 2 + 16);
+
+function assertNoCollisionBetween(firstId: string, secondId: string): void {
+  const first = positionedExperiences.filter((item) => item.parentId === firstId);
+  const second = positionedExperiences.filter((item) => item.parentId === secondId);
+  if (!first.length || !second.length) throw new Error(`Scénario de collision Journey manquant : ${firstId} / ${secondId}.`);
+  for (const left of first) for (const right of second) {
+    if (intersects(
+      { left: left.tagCenter - left.tagWidth / 2, top: left.tagTop, width: left.tagWidth, height: left.tagHeight },
+      { left: right.tagCenter - right.tagWidth / 2, top: right.tagTop, width: right.tagWidth, height: right.tagHeight }
+    )) throw new Error(`Collision Journey non résolue : ${firstId} / ${secondId}.`);
+  }
+}
+
+assertNoCollisionBetween("exp_gsk_2024", "exp_agriviva_2024_2025");
+assertNoCollisionBetween("exp_inserm_hug_2026", "exp_normandie_arome_2019_2025");
+
+function ribbonPath(item: PositionedExperience): string {
+  const tagHalfWidth = RIBBON_TAG_BASE_WIDTH / 2;
+  const tagJoinY = item.tagTop + 1;
+  const axisY = 4;
+  return [
+    `M ${item.xStart} ${axisY}`,
+    `L ${item.xEnd} ${axisY}`,
+    `C ${item.xEnd} 31, ${item.tagCenter + tagHalfWidth} ${tagJoinY - 24}, ${item.tagCenter + tagHalfWidth} ${tagJoinY}`,
+    `L ${item.tagCenter - tagHalfWidth} ${tagJoinY}`,
+    `C ${item.tagCenter - tagHalfWidth} ${tagJoinY - 24}, ${item.xStart} 31, ${item.xStart} ${axisY}`,
+    "Z"
+  ].join(" ");
+}
+---
+
+<section class="journey" aria-label="Carte interactive du parcours">
+    <div class="journey-scroll">
+      <div class="journey-canvas" style={`--axis-width: ${axisWidth}px; --timeline-start-inset: ${timelineStartInset}px; --timeline-width: ${timelineWidth}px; --experience-tooltip-extent: ${experienceTooltipExtent}px; --experience-svg-height: ${experienceSvgHeight}px; --journey-min-height: ${journeyMinHeight}px`}>
+        <div class="journey-field">
+          <div class="journey-horizon" aria-hidden="true">
+            <div class="journey-years">
+              {timelineTicks.map((tick) => <span style={`left: ${timelineScale(tick.date)}px`}>{tick.label}</span>)}
+            </div>
+          </div>
+          <svg class="journey-formation-svg" viewBox={`0 0 ${timelineWidth} ${journeyMinHeight}`} width={timelineWidth} height={journeyMinHeight} role="group" aria-label="Formations : rubans de cursus et détails au survol.">
+            {positionedFormations.map((item) => {
+              const visual = visualIdentities[item.parentId];
+              const period = formatPeriod(item.periode);
+              const compact = item.width < 108 ? "is-compact" : "";
+              const tiny = item.width < 42 ? "is-tiny" : "";
+              const labelLines = compact ? [visual.mark] : (visual.labelLines ?? [visual.label]);
+              const labelX = compact ? item.x + item.width / 2 : item.x + 14;
+              const labelAnchor = compact ? "middle" : "start";
+              const labelY = item.cardTop + item.cardHeight / 2 + 5 - (labelLines.length - 1) * 6;
+              return (
+                <g class={`journey-formation-link brand-${visual.brand} ${compact} ${tiny}`} tabindex="0" role="group" aria-label={`${item.title}, ${period}, ${item.subtitle}. ${item.summary}`} data-journey-tooltip={JSON.stringify({ category: "Formation", title: item.title, role: item.subtitle, context: period, summary: item.summary })}>
+                  <rect class="journey-formation-card" x={item.x} y={item.cardTop} width={item.width} height={item.cardHeight} rx="14" />
+                  <text class="journey-formation-card-label" x={labelX} y={labelY} text-anchor={labelAnchor}>{labelLines.map((line, index) => <tspan x={labelX} dy={index === 0 ? 0 : 12}>{line}</tspan>)}</text>
+                  <g class="journey-experience-tooltip" transform={`translate(${item.tooltipX} ${item.tooltipY})`}>
+                    <rect class="journey-experience-tooltip-panel" width={item.tooltipWidth} height={item.tooltipHeight} rx="12" />
+                    <text class="journey-experience-tooltip-meta" x="16" y="19">Formation</text>
+                    <text class="journey-experience-tooltip-title" x="16" y={item.titleY}>
+                      {item.titleLines.map((line, index) => <tspan x="16" dy={index === 0 ? 0 : 21}>{line}</tspan>)}
+                    </text>
+                    <text class="journey-experience-tooltip-role" x="16" y={item.roleY}>
+                      {item.roleLines.map((line, index) => <tspan x="16" dy={index === 0 ? 0 : 15}>{line}</tspan>)}
+                    </text>
+                    <text class="journey-experience-tooltip-context" x="16" y={item.contextY}>
+                      {item.contextLines.map((line, index) => <tspan x="16" dy={index === 0 ? 0 : 15}>{line}</tspan>)}
+                    </text>
+                    <text class="journey-experience-tooltip-summary" x="16" y={item.summaryY}>
+                      {item.summaryLines.map((line, index) => <tspan x="16" dy={index === 0 ? 0 : 15}>{line}</tspan>)}
+                    </text>
+                  </g>
+                </g>
+              );
+            })}
+          </svg>
+          <svg class="journey-experience-svg" viewBox={`0 ${-experienceTooltipExtent} ${timelineWidth} ${experienceSvgHeight}`} width={timelineWidth} height={experienceSvgHeight} role="group" aria-label="Expériences professionnelles : segments de présence et liens vers les fiches détaillées.">
+            {positionedExperiences.map((item) => {
+              const visual = visualIdentities[item.parentId];
+              const period = formatPeriod(item.periode);
+              const tagLeft = item.tagCenter - item.tagWidth / 2;
+              return (
+                <a class={`journey-experience-link brand-${visual.brand}`} href={`/experiences/${item.parentId}/`} tabindex="0" aria-label={`${visual.label}, ${period}, ${item.lieu}. Ouvrir le détail.`} data-journey-tooltip={JSON.stringify({ category: "Expérience professionnelle", title: item.title, role: item.subtitle, context: `${period} · ${item.lieu}`, summary: item.summary, action: "Cliquez pour voir les détails" })}>
+                  <path class="journey-experience-ribbon" d={ribbonPath(item)} />
+                  <rect class="journey-experience-segment" x={item.xStart} y="0" width={item.xEnd - item.xStart} height="8" rx="3" />
+                  <rect class="journey-experience-tag" x={tagLeft} y={item.tagTop} width={item.tagWidth} height={item.tagHeight} rx="14" />
+                  <text class="journey-experience-tag-label" x={item.tagCenter} y={item.tagTop + item.tagHeight / 2 + 4} text-anchor="middle">{visual.label}</text>
+                  <g class="journey-experience-tooltip" transform={`translate(${item.tooltipX} ${item.tooltipY})`}>
+                    <rect class="journey-experience-tooltip-panel" width={item.tooltipWidth} height={item.tooltipHeight} rx="12" />
+                    <text class="journey-experience-tooltip-meta" x="16" y="19">Expérience professionnelle</text>
+                    <text class="journey-experience-tooltip-title" x="16" y={item.titleY}>
+                      {item.titleLines.map((line, index) => <tspan x="16" dy={index === 0 ? 0 : 21}>{line}</tspan>)}
+                    </text>
+                    <text class="journey-experience-tooltip-role" x="16" y={item.roleY}>
+                      {item.roleLines.map((line, index) => <tspan x="16" dy={index === 0 ? 0 : 15}>{line}</tspan>)}
+                    </text>
+                    <text class="journey-experience-tooltip-context" x="16" y={item.contextY}>
+                      {item.contextLines.map((line, index) => <tspan x="16" dy={index === 0 ? 0 : 15}>{line}</tspan>)}
+                    </text>
+                    <text class="journey-experience-tooltip-summary" x="16" y={item.summaryY}>
+                      {item.summaryLines.map((line, index) => <tspan x="16" dy={index === 0 ? 0 : 15}>{line}</tspan>)}
+                    </text>
+                    <text class="journey-experience-tooltip-link" x="16" y={item.linkY}>Cliquez pour voir les détails</text>
+                  </g>
+                </a>
+              );
+            })}
+          </svg>
+        </div>
+      </div>
+    </div>
+  <aside class="journey-global-popover" data-journey-global-popover aria-hidden="true">
+    <span class="journey-global-popover-meta" data-journey-popover-category></span>
+    <strong data-journey-popover-title></strong>
+    <span class="journey-global-popover-role" data-journey-popover-role></span>
+    <span class="journey-global-popover-context" data-journey-popover-context></span>
+    <span class="journey-global-popover-summary" data-journey-popover-summary></span>
+    <span class="journey-global-popover-action" data-journey-popover-action></span>
+  </aside>
+  <script>
+    const popover = document.querySelector("[data-journey-global-popover]");
+    const triggers = document.querySelectorAll("[data-journey-tooltip]");
+
+    if (popover instanceof HTMLElement) {
+      const fields = {
+        category: popover.querySelector("[data-journey-popover-category]"),
+        title: popover.querySelector("[data-journey-popover-title]"),
+        role: popover.querySelector("[data-journey-popover-role]"),
+        context: popover.querySelector("[data-journey-popover-context]"),
+        summary: popover.querySelector("[data-journey-popover-summary]"),
+        action: popover.querySelector("[data-journey-popover-action]")
+      };
+
+      const hidePopover = () => {
+        popover.classList.remove("is-visible");
+        popover.setAttribute("aria-hidden", "true");
+      };
+
+      const showPopover = (target: Element) => {
+        const raw = target.getAttribute("data-journey-tooltip");
+        if (!raw) return;
+        const content = JSON.parse(raw);
+        Object.entries(fields).forEach(([key, element]) => {
+          if (!(element instanceof HTMLElement)) return;
+          element.textContent = content[key] ?? "";
+          element.hidden = !content[key];
+        });
+        popover.classList.add("is-visible");
+        popover.setAttribute("aria-hidden", "false");
+        requestAnimationFrame(() => {
+          const anchor = target.getBoundingClientRect();
+          const panel = popover.getBoundingClientRect();
+          const left = Math.min(Math.max(12, anchor.left + anchor.width / 2 - panel.width / 2), window.innerWidth - panel.width - 12);
+          const below = anchor.bottom + 14;
+          const top = below + panel.height <= window.innerHeight - 12
+            ? below
+            : Math.max(12, anchor.top - panel.height - 14);
+          popover.style.setProperty("--journey-popover-left", `${left}px`);
+          popover.style.setProperty("--journey-popover-top", `${top}px`);
+        });
+      };
+
+      triggers.forEach((target) => {
+        target.addEventListener("pointerenter", () => showPopover(target));
+        target.addEventListener("pointerleave", hidePopover);
+        target.addEventListener("focus", () => showPopover(target));
+        target.addEventListener("blur", hidePopover);
+      });
+      window.addEventListener("resize", hidePopover);
+      window.addEventListener("scroll", hidePopover, true);
+      document.addEventListener("keydown", (event) => {
+        if (event.key === "Escape") hidePopover();
+      });
+    }
+  </script>
+</section>

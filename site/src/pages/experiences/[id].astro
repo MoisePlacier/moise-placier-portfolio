@@ -1,0 +1,125 @@
+---
+import type { GetStaticPaths } from "astro";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import ContentVisual from "../../components/ContentVisual.astro";
+import ExperienceLogos from "../../components/ExperienceLogos.astro";
+import { experiences, formatPeriod, manifestationsFor, publicDocumentUrl, publicProofs, skillsFor, type CatalogueObject } from "../../lib/catalogue";
+
+export const getStaticPaths: GetStaticPaths = () => experiences.map((experience) => ({
+  params: { id: experience.id },
+  props: { experience }
+}));
+
+const { experience } = Astro.props as { experience: CatalogueObject };
+const proofs = publicProofs(experience.id);
+const isGskExperience = experience.id === "exp_gsk_2024";
+const isInsermExperience = experience.id === "exp_inserm_hug_2026";
+const isNormandieExperience = experience.id === "exp_normandie_arome_2019_2025";
+const returnHref = `/experiences/#experience-${experience.id}`;
+---
+
+<BaseLayout title={`${experience.organisation} — Moïse Placier`} description={experience.resume} bodyClass="experience-detail-page" headerBackHref={returnHref}>
+  <div class="experience-detail">
+  {isGskExperience ? (
+    <section class="gsk-hero shell">
+      <div class="gsk-hero-composition">
+        <h1>Vaccine Manufacturing Science &amp; Technology</h1>
+        <div class="gsk-hero-details">
+          <p class="gsk-hero-role">Stagiaire Data Scientist</p>
+          <p class="gsk-hero-meta"><span>Wavre, Belgique</span><span>février 2024 — juillet 2024</span></p>
+        </div>
+        <ExperienceLogos experienceId={experience.id} variant="gsk-hero" />
+        <ContentVisual itemId={experience.id} variant="gsk-hero" />
+      </div>
+    </section>
+  ) : isInsermExperience ? (
+    <section class="inserm-hero shell">
+      <div class="inserm-hero-composition">
+        <h1>Des données de réanimation à la modélisation du devenir rénal</h1>
+        <div class="inserm-hero-details">
+          <p class="inserm-hero-role">Stagiaire statisticien en recherche clinique</p>
+          <p class="inserm-hero-meta"><span>Paris / Genève</span><span>février 2026 — juillet 2026</span></p>
+        </div>
+        <ExperienceLogos experienceId={experience.id} variant="inserm-hero" />
+        <ContentVisual itemId={experience.id} variant="inserm-hero" />
+      </div>
+    </section>
+  ) : isNormandieExperience ? (
+    <section class="normandie-hero shell">
+      <div class="normandie-hero-composition">
+        <h1>Production et optimisation de procédés de distillation</h1>
+        <div class="normandie-hero-details">
+          <p class="normandie-hero-role">Responsable de production et missions d’optimisation des procédés</p>
+          <p class="normandie-hero-meta"><span>Foucrainville, France</span><span>2019 — 2025</span></p>
+        </div>
+        <ExperienceLogos experienceId={experience.id} variant="normandie-hero" />
+        <ContentVisual itemId={experience.id} variant="normandie-hero" />
+      </div>
+    </section>
+  ) : (
+    <section class="detail-hero shell">
+      <div class="detail-heading">
+        <div>
+          <span class="eyebrow">{formatPeriod(experience.periode)} · {experience.lieu}</span>
+          <h1>{experience.organisation}</h1>
+          <p class="detail-role">{experience.intitule_officiel}</p>
+          <ExperienceLogos experienceId={experience.id} variant="detail" />
+        </div>
+        <p class="detail-summary">{experience.resume}</p>
+      </div>
+      <ContentVisual itemId={experience.id} variant="detail" />
+    </section>
+  )}
+
+  <section class:list={["shell", "detail-content", isGskExperience && "gsk-detail-content"]}>
+    <div class="detail-intro">
+      <span class="eyebrow">Réalisations</span>
+      <h2>{isGskExperience ? "Développement d’outils d’analyse, d’optimisation et d’aide à la décision pour les procédés de fabrication d’antigènes." : "Ce qui a été mené."}</h2>
+      {isGskExperience && (
+        <figure class="gsk-team-photo">
+          <img src="/visuals/experience-gsk-team.webp" alt="Équipe GSK en tenue de salle blanche" loading="lazy" decoding="async" />
+        </figure>
+      )}
+    </div>
+    <div class="realisation-list">
+      {experience.realisations.map((realisation: any, index: number) => {
+        const skills = skillsFor(realisation);
+        const manifestations = manifestationsFor(realisation);
+        return (
+          <article class="realisation">
+            <span class="realisation-number">{String(index + 1).padStart(2, "0")}</span>
+            <div>
+              <h3>{realisation.description_factuelle}</h3>
+              <p>{realisation.perimetre_ou_resultats}</p>
+              {manifestations.length > 0 && (
+                <div class="manifestation"><span>Illustration</span>{manifestations.map((item) => <p>{item}</p>)}</div>
+              )}
+              <ul class="tag-list">
+                {skills.map((skill) => <li>{skill.nom}</li>)}
+              </ul>
+            </div>
+          </article>
+        );
+      })}
+    </div>
+  </section>
+
+  {proofs.length > 0 && (
+    <section class="shell proof-section">
+      <div>
+        <span class="eyebrow">Pièces associées</span>
+        <h2>Documents publics.</h2>
+      </div>
+      <div class="proof-list">
+        {proofs.map(({ source, link }) => (
+          <a href={publicDocumentUrl(source)} target="_blank" class="proof-link">
+            <span>PDF</span>
+            <div><strong>{source.libelle_court ?? source.titre}</strong><small>{source.auteur ?? "Document associé"}{link.localisation ? ` · ${link.localisation}` : ""}</small></div>
+            <b>↗</b>
+          </a>
+        ))}
+      </div>
+    </section>
+  )}
+  </div>
+</BaseLayout>

@@ -1,0 +1,151 @@
+---
+const assets = "/restitutions/crop-classification";
+---
+
+<article class="technical-report shell" id="restitution-technique" aria-labelledby="crop-report-title">
+  <header class="technical-report-header">
+    <div>
+      <span class="eyebrow">Étude de cas · télédétection &amp; deep learning</span>
+      <h2 id="crop-report-title">Classer les cultures à partir de séries temporelles Sentinel-2.</h2>
+    </div>
+    <p>Concevoir un pipeline géospatial reproductible, depuis les parcelles agricoles et les images satellites jusqu’à une carte de classes à 10 mètres.</p>
+  </header>
+
+  <section class="report-section report-overview" aria-labelledby="crop-challenge-title">
+    <div class="report-section-label"><span>01</span><p>Le défi</p></div>
+    <div class="report-copy">
+      <h3 id="crop-challenge-title">Faire dialoguer des données agricoles vectorielles et des images satellites multi-dates.</h3>
+      <p>Le projet étudie l’apport conjoint de la dynamique temporelle Sentinel-2 et du contexte spatial pour la classification des cultures à l’échelle du pixel. Le point de départ est un problème d’ingénierie : transformer le Registre parcellaire graphique (RPG) 2023 et des rasters satellitaires hétérogènes en un jeu de données exploitable par un modèle de segmentation.</p>
+      <div class="report-stat-grid report-impact-grid" aria-label="Chiffres clés du projet">
+        <article><strong>4 000</strong><span>km² étudiés dans 40 zones</span></article>
+        <article><strong>≈ 130 k</strong><span>parcelles agricoles</span></article>
+        <article><strong>+9,92</strong><span>points de macro-F1 vs. XGBoost</span></article>
+        <article><strong>10 m</strong><span>résolution des cartes produites</span></article>
+      </div>
+      <aside class="contribution-card" aria-labelledby="crop-contribution-title">
+        <span class="eyebrow">Ma contribution</span>
+        <h4 id="crop-contribution-title">Conception et implémentation individuelles de la chaîne CNN.</h4>
+        <p>J’ai réalisé l’extraction Sentinel-2 dans Google Earth Engine, la préparation du RPG, l’échantillonnage des quarante zones, les composites et l’interpolation temporelle, ainsi que la conception et l’implémentation du CNN hybride. J’ai aussi rédigé les scripts d’entraînement pour cluster et l’intégralité de la restitution finale. XGBoost et l’évaluation comparative ont été réalisés par d’autres membres de l’équipe.</p>
+      </aside>
+    </div>
+  </section>
+
+  <section class="report-section" aria-labelledby="crop-pipeline-title">
+    <div class="report-section-label"><span>02</span><p>Le pipeline</p></div>
+    <div class="report-copy">
+      <h3 id="crop-pipeline-title">Construire un dataset spatial, temporel et supervisé.</h3>
+      <ol class="pipeline-steps" aria-label="Étapes de la chaîne de traitement">
+        <li><span>01</span><div><strong>RPG 2023</strong><p>Nettoyage et regroupement des classes, gestion des géométries et des étiquettes parcellaires.</p></div></li>
+        <li><span>02</span><div><strong>Sentinel-2 L2A</strong><p>Extraction de quatre bandes à 10 m et d’observations répétées dans Google Earth Engine.</p></div></li>
+        <li><span>03</span><div><strong>Harmoniser</strong><p>Reprojection Lambert 93 → WGS84 → UTM, rasterisation et alignement précis des sources.</p></div></li>
+        <li><span>04</span><div><strong>Reconstruire le temps</strong><p>Masquage SCL, médianes mensuelles et interpolation des lacunes causées par les nuages.</p></div></li>
+        <li><span>05</span><div><strong>Apprendre &amp; comparer</strong><p>CNN temporel + spatial, scripts de calcul sur cluster et comparaison avec XGBoost.</p></div></li>
+      </ol>
+      <p>Les quarante fenêtres de 10 × 10 km couvrent huit ensembles agricoles français sélectionnés à partir de WorldCover. Elles représentent notamment grandes cultures du Nord et du bassin parisien, systèmes de l’Ouest, Sud-Ouest, Sud-Est, Massif central, Alsace-Lorraine et Méditerranée.</p>
+    </div>
+  </section>
+
+  <section class="report-section" aria-labelledby="crop-preprocessing-title">
+    <div class="report-section-label"><span>03</span><p>Prétraiter</p></div>
+    <div class="report-copy">
+      <h3 id="crop-preprocessing-title">Rendre les séries temporelles comparables malgré les nuages.</h3>
+      <p>Les acquisitions Sentinel-2 ne sont pas directement utilisables : nuages, ombres et dates irrégulières créent des séries incomplètes. La <em>Scene Classification Layer</em> filtre ces pixels en ne conservant que les classes 4 à 7. Une médiane mensuelle consolide ensuite les six à quinze acquisitions disponibles, par bande, par zone et par mois.</p>
+      <ol class="report-steps">
+        <li><strong>Lacune interne :</strong> moyenne des observations mensuelles qui l’encadrent.</li>
+        <li><strong>Début de série :</strong> reprise de la première observation disponible après la lacune.</li>
+        <li><strong>Fin de série :</strong> reprise de la dernière observation disponible avant la lacune.</li>
+      </ol>
+      <p>Cette reconstruction délivre un profil temporel complet par pixel, sans confondre une absence d’observation avec un changement de culture.</p>
+      <details class="technical-details">
+        <summary>Voir les bandes Sentinel-2 utilisées</summary>
+        <div class="report-table-wrap" tabindex="0">
+          <table class="report-table">
+            <caption>Bandes optiques intégrées dans les séries temporelles</caption>
+            <thead><tr><th>Bande</th><th>Résolution</th><th>Longueur d’onde</th><th>Information mobilisée</th></tr></thead>
+            <tbody>
+              <tr><th scope="row">B2 · Bleu</th><td>10 m</td><td>496,6 / 492,1 nm</td><td>Chlorophylle et détection de nuages</td></tr>
+              <tr><th scope="row">B3 · Vert</th><td>10 m</td><td>560 / 559 nm</td><td>Contraste de végétation</td></tr>
+              <tr><th scope="row">B4 · Rouge</th><td>10 m</td><td>664,5 / 665 nm</td><td>NDVI et croissance végétale</td></tr>
+              <tr><th scope="row">B8 · Proche infrarouge</th><td>10 m</td><td>835,1 / 833 nm</td><td>Biomasse et sol</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </details>
+    </div>
+  </section>
+
+  <figure class="report-figure report-figure-wide">
+    <img src={`${assets}/class-distribution.png`} alt="Distribution déséquilibrée des classes de cultures dans le jeu de données" loading="lazy" />
+    <figcaption>La distribution des classes est fortement déséquilibrée : l’accuracy seule serait insuffisante. Les métriques macro donnent le même poids à chaque classe, y compris aux cultures rares.</figcaption>
+  </figure>
+
+  <section class="report-section" aria-labelledby="crop-architecture-title">
+    <div class="report-section-label"><span>04</span><p>Modéliser</p></div>
+    <div class="report-copy">
+      <h3 id="crop-architecture-title">Apprendre d’abord le temps, puis l’espace.</h3>
+      <p>J’ai développé une architecture hybride : chaque pixel est d’abord encodé selon sa trajectoire spectrale au fil des mois, puis la carte d’embeddings est traitée par un U-Net simplifié. Le modèle peut ainsi utiliser à la fois la phénologie d’une culture et la cohérence spatiale d’une parcelle.</p>
+      <div class="architecture-flow" aria-label="Architecture du modèle CNN hybride">
+        <div><span>Entrée</span><strong>4 bandes × T dates</strong><small>Séries par pixel</small></div>
+        <i aria-hidden="true">→</i>
+        <div><span>CNN 1D</span><strong>Encodage temporel</strong><small>Convolutions par pixel</small></div>
+        <i aria-hidden="true">→</i>
+        <div><span>Grille</span><strong>Embeddings spatiaux</strong><small>H × W pixels</small></div>
+        <i aria-hidden="true">→</i>
+        <div><span>CNN 2D</span><strong>U-Net simplifié</strong><small>Contexte du voisinage</small></div>
+        <i aria-hidden="true">→</i>
+        <div><span>Sortie</span><strong>Carte de cultures</strong><small>Classe par pixel</small></div>
+      </div>
+      <p class="technical-note">Le tenseur de départ est traité sous la forme <code>X ∈ R<sup>[B, C=4, T, H, W]</sup></code>. Le CNN 1D produit un embedding par pixel ; le CNN 2D opère ensuite sur la grille <code>[B, D, H, W]</code>.</p>
+    </div>
+  </section>
+
+  <section class="prediction-pair" aria-label="Comparaison d’une prédiction et de la vérité terrain">
+    <figure class="report-figure">
+      <img src={`${assets}/cnn-predictions.png`} alt="Carte de prédictions de classes de cultures issue du modèle CNN" loading="lazy" />
+      <figcaption>Prédictions de la classification CNN hybride sur une zone représentée dans la restitution.</figcaption>
+    </figure>
+    <figure class="report-figure">
+      <img src={`${assets}/ground-truth.png`} alt="Carte de référence des cultures pour la même zone" loading="lazy" />
+      <figcaption>Référence issue du RPG pour la même zone.</figcaption>
+    </figure>
+  </section>
+
+  <section class="report-section" aria-labelledby="crop-evaluation-title">
+    <div class="report-section-label"><span>05</span><p>Évaluer</p></div>
+    <div class="report-copy">
+      <h3 id="crop-evaluation-title">Interpréter le gain, sans sur-vendre le résultat.</h3>
+      <p>Le README décrit une réservation d’une zone sur cinq dans chacun des huit groupes régionaux, ainsi qu’une validation croisée à trois plis sur les zones restantes. Le script d’entraînement conservé applique pour sa part un <em>KFold</em> mélangé au dataset HDF5 assemblé. Les chiffres ci-dessous sont donc présentés comme les <strong>résultats expérimentaux rapportés</strong>, et non comme la preuve d’une généralisation nationale entièrement indépendante.</p>
+      <div class="model-grid">
+        <article class="model-card model-card-featured">
+          <span>Architecture développée</span>
+          <h4>CNN temporel + spatial</h4>
+          <dl>
+            <div><dt>Accuracy</dt><dd>87,21 %</dd></div>
+            <div><dt>Macro précision</dt><dd>40,99 %</dd></div>
+            <div><dt>Macro rappel</dt><dd>35,44 %</dd></div>
+            <div><dt>Macro F1</dt><dd>35,16 %</dd></div>
+          </dl>
+        </article>
+        <article class="model-card">
+          <span>Référence d’équipe</span>
+          <h4>XGBoost pixel à pixel</h4>
+          <dl>
+            <div><dt>Accuracy</dt><dd>80,45 %</dd></div>
+            <div><dt>Macro précision</dt><dd>35,43 %</dd></div>
+            <div><dt>Macro rappel</dt><dd>23,03 %</dd></div>
+            <div><dt>Macro F1</dt><dd>25,24 %</dd></div>
+          </dl>
+        </article>
+      </div>
+      <p>Le CNN obtient +6,76 points d’accuracy et +9,92 points de macro-F1 face à XGBoost. Le gain macro est le signal le plus utile ici : il indique une meilleure prise en compte des classes minoritaires. Il ne rend toutefois pas le problème résolu ; un macro-F1 de 35,16 % confirme que plusieurs classes restent difficiles à distinguer.</p>
+    </div>
+  </section>
+
+  <section class="report-conclusion" aria-labelledby="crop-conclusion-title">
+    <span class="eyebrow">Reproductibilité</span>
+    <h3 id="crop-conclusion-title">Un projet d’ingénierie scientifique, documenté de la donnée au modèle.</h3>
+    <p>Le dépôt rassemble les scripts d’acquisition, de préparation des rasters et du dataset, l’architecture CNN, les scripts d’entraînement et les éléments de restitution. Le projet a reçu une évaluation académique de <strong>1,0 / 97 %</strong>, à conserver comme distinction secondaire plutôt que comme résultat scientifique.</p>
+    <p class="report-sources">Données : <a href="https://www.geoportail.gouv.fr/donnees/registre-parcellaire-graphique-rpg-2023" target="_blank" rel="noreferrer">RPG 2023</a> · <a href="https://developers.google.com/earth-engine/datasets/catalog/COPERNICUS_S2_SR_HARMONIZED" target="_blank" rel="noreferrer">Sentinel-2 L2A harmonisé</a> · Référence : <a href="https://doi.org/10.1016/j.rse.2021.112603" target="_blank" rel="noreferrer">Turkoglu et al., 2021</a> · <a href="https://github.com/MoisePlacier/Crop_type_classification" target="_blank" rel="noreferrer">dépôt du projet</a>.</p>
+    <p class="report-credits">Projet réalisé avec <a href="https://github.com/giovannisetaro" target="_blank" rel="noreferrer">Giovanni Setaro</a>, <a href="https://github.com/NoeCoursi" target="_blank" rel="noreferrer">Noé Coursimaux</a> et <a href="https://github.com/MoisePlacier" target="_blank" rel="noreferrer">Moïse Placier</a>.</p>
+  </section>
+</article>
