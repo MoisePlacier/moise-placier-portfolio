@@ -1,0 +1,52 @@
+id: procedes
+headline: Ingénieur agronome — procédés et industrialisation agroalimentaires
+summary: >-
+  Ingénieur agronome diplômé, spécialisé dans l’industrialisation et l’optimisation
+  de procédés agroalimentaires. Expérience de mise en service, production, qualité
+  et analyse de données.
+
+experiences:
+  - id: exp_agriviva_2024_2025
+    niveau: 3
+    realisations:
+      - agriviva_atelier
+      - agriviva_haccp
+      - agriviva_ensachage
+      - agriviva_gmao
+      - agriviva_kpi
+  - id: exp_normandie_arome_2019_2025
+    niveau: 2
+    realisations:
+      - normandie_production
+      - normandie_database
+      - normandie_optimisation
+      - normandie_microdistillation
+  - id: exp_gsk_2024
+    niveau: 2
+    realisations:
+      - gsk_hu
+      - gsk_nlp
+      - gsk_chromato
+  - id: exp_inserm_hug_2026
+    niveau: 1
+
+education_rules:
+  - formation_id: formation_ensat
+    degree: Diplôme d’ingénieur agronome
+    area: Agronomie, statistiques et gestion de projet
+  - formation_id: formation_m2_data_bio
+    degree: Master Mathématiques appliquées, Statistique
+    area: Sciences des données pour la biologie
+  - formation_id: formation_erasmus_bht
+    degree: Mobilité académique (30 ECTS)
+    area: MSc Data Science
+
+skill_groups:
+  - label: Procédés et production
+    skill_ids: [ingenierie_procedes, industrialisation, mise_en_service, production, r_and_d]
+  - label: Qualité et performance
+    skill_ids: [haccp, qualite, gmao, maintenance_preventive, kpi, amelioration_continue]
+  - label: Données
+    skill_ids: [python, r, analyse_donnees, automatisation, optimisation]
+  - label: Pilotage
+    skill_ids: [gestion_projet, analyse_besoin, communication, formation]

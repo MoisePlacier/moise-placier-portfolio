@@ -1,0 +1,45 @@
+schema_version: 1.1.0
+formations:
+- id: formation_ensat
+  etablissement: École nationale supérieure agronomique de Toulouse (ENSAT)
+  intitule: Diplôme d’ingénieur agronome
+  statut: Diplôme obtenu
+  periode:
+    debut: 2022-09
+    fin: 2026-09
+  domaines:
+  - agronomie
+  - biologie
+  - gestion de projet
+  - production
+  - statistiques
+- id: formation_m2_data_bio
+  etablissement: Institut Agro / Université de Rennes / Université Rennes 2 / ENSAI / EHESP
+  intitule: Master Sciences des données pour la biologie, parcours du Master Mathématiques appliquées, Statistique
+  statut: Diplôme obtenu
+  periode:
+    debut: 2025-09
+    fin: 2026-09
+  resultats:
+  - 15,184/20 au semestre 9
+  - 4e/26 au semestre 9, hors stage
+  - 18/20 apprentissage des données biologiques
+  - 18/20 données expérimentales
+  - 16/20 machine learning
+- id: formation_erasmus_bht
+  etablissement: Berliner Hochschule für Technik (BHT)
+  intitule: Mobilité MSc Data Science (30 ECTS)
+  periode:
+    debut: 2025-03
+    fin: 2025-07
+  resultats:
+  - Note allemande 1,82 pondérée ECTS
+  - Top 20 % de la promotion selon attestation
+  - 'Machine Learning 1 : 1,3'
+  - 'Data Science Workflow : 1,0'
+- id: formation_cpge
+  etablissement: Lycée Chaptal, Paris
+  intitule: Classe préparatoire BCPST
+  periode:
+    debut: 2020-09
+    fin: 2022-07

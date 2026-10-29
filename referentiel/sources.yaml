@@ -1,0 +1,62 @@
+schema_version: 1.1.0
+sources:
+- id: S02
+  titre: Fiche d’appréciation de stage — David Legouis
+  type: évaluation de stage
+  format: pdf
+  visibilite: public
+  fichier: documents/publics/hug/2026-07_appreciation-maitre-stage-hug.pdf
+  sha256: 6ffdc261a1021af9681b96953bd368bc6a3a2db71ad04dfe20bd9538137e0835
+  date: null
+  auteur: Dr David Legouis
+  libelle_court: Appréciation de stage HUG
+  note: Fiche numérisée ; les annotations manuscrites ne sont pas toutes indexables automatiquement.
+- id: S07
+  titre: Global Recognition Award — Badiaa Bouzya
+  type: reconnaissance managériale
+  format: pdf
+  visibilite: public
+  fichier: documents/publics/gsk/reccomandation_badiaa_GSK.pdf
+  sha256: 20c80332da97c1781b540a3aad2c2885d217cb24fa8e421842707801a78ec68f
+  date: '2024-03-29'
+  auteur: Badiaa Bouzya
+  libelle_court: Reconnaissance GSK — Badiaa Bouzya
+- id: S08
+  titre: Global Recognition Award — Jean-Thierry Pycke
+  type: reconnaissance managériale
+  format: pdf
+  visibilite: public
+  fichier: documents/publics/gsk/recommandation_JT_GSK.pdf
+  sha256: 45e0f5da36a390b34296d5a81539a22a4fb80351776afa3e92bc6cad0ae4084e
+  date: '2024-07-30'
+  auteur: Jean-Thierry Pycke
+  libelle_court: Reconnaissance GSK — Jean-Thierry Pycke
+- id: S12
+  titre: Déclaration du candidat sur son attribution dans les projets académiques collectifs
+  type: déclaration du candidat
+  format: declaration
+  visibilite: interne
+  date: '2026-10-13'
+  libelle_court: Déclaration d’attribution des projets académiques
+  note: Le candidat déclare avoir initié chacun des trois sujets, développé une grande partie du code et rédigé l’intégralité des rapports. La répartition technique détaillée par réalisation reste à préciser.
+- id: S13
+  titre: Évaluation de stage — Agriviva
+  type: évaluation de stage
+  format: pdf
+  visibilite: public
+  fichier: documents/publics/agriviva/appreciation_maitre_stage_agriviva.pdf
+  sha256: d0fd4652ef4df4b14b1aa796543c071e465e4849a6d3af818b0a77bd8c0ca291
+  date: null
+  libelle_court: Évaluation de stage Agriviva
+  note: Grille d’évaluation de stage ; la date et le nom du tuteur seront renseignés après relecture humaine.
+- id: S14
+  titre: Synthèse de dépôt — Version définitive — Formalité de création validée
+  type: justificatif d’immatriculation
+  format: pdf
+  visibilite: interne
+  fichier: documents/prives/administratif/2026-10_synthese-depot-inpi.pdf
+  sha256: 91c9b1ba0a5ea2b0de6fb98733e259166eba04cae1f0e28b8cf48675f9b34f8a
+  date: '2026-10-19'
+  auteur: Guichet unique des entreprises / INPI
+  libelle_court: Synthèse INPI — création EI
+  note: Document administratif interne contenant des données personnelles ; il ne doit pas être publié.

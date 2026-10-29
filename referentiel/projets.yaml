@@ -1,0 +1,254 @@
+schema_version: 1.1.0
+projets:
+- id: prj_protein_structure_2025
+  titre: Prédiction de la structure secondaire de protéines à partir des séquences
+  date: '2025-11-21'
+  cadre: Projet académique en apprentissage automatique / biologie computationnelle
+  equipe: Faustine Boulet, Constance Beaufils, Moïse Placier
+  attribution:
+    statut: contribution_principale_declaree_par_le_candidat
+    synthese: À l’initiative du sujet, développement d’une grande partie du code et rédaction de l’intégralité du rapport déclarés par le candidat.
+    limite: La répartition technique détaillée par réalisation entre les membres reste à préciser.
+  secteurs:
+  - biotechnologies
+  - bioinformatique
+  - data
+  description: Comparaison de Random Forest, CNN-1D enrichi de profils évolutifs PSSM, et classifieur Transformer sur embeddings ProtBERT (3 classes H/E/C), à partir de ProteinNet CASP8.
+  realisations:
+  - id: protein_preprocessing
+    description_factuelle: Construction de descripteurs locaux physico-chimiques par fenêtres glissantes de 11 résidus.
+    attribution: Projet collectif; contribution individuelle non détaillée dans la pièce
+    perimetre_ou_resultats: Jeu de 2 270 581 fenêtres et 121 variables (11 paramètres × 11 positions); sous-échantillon de 200 000 fenêtres pour le réglage des hyperparamètres.
+    mobilisations:
+    - id: mob_protein_preprocessing_feature_engineering
+      competence_id: feature_engineering
+    - id: mob_protein_preprocessing_bioinformatique
+      competence_id: bioinformatique
+    - id: mob_protein_preprocessing_machine_learning
+      competence_id: machine_learning
+    - id: mob_protein_preprocessing_preprocessing
+      competence_id: preprocessing
+  - id: protein_rf
+    description_factuelle: Évaluation d’un Random Forest pour classification H/E/C.
+    attribution: Projet collectif; contribution individuelle non détaillée dans la pièce
+    perimetre_ou_resultats: Exactitude Q3 de 66,5 %, balanced accuracy 62,6 %, macro F1 63,3 %.
+    mobilisations:
+    - id: mob_protein_rf_random_forest
+      competence_id: random_forest
+    - id: mob_protein_rf_validation_modeles
+      competence_id: validation_modeles
+    - id: mob_protein_rf_modelisation_statistique
+      competence_id: modelisation_statistique
+  - id: protein_cnn
+    description_factuelle: Construction et évaluation d’un CNN 1D utilisant One-Hot Encoding et PSSM.
+    attribution: Projet collectif; contribution individuelle non détaillée dans la pièce
+    perimetre_ou_resultats: Entrée 41 canaux; trois convolutions (3/7/11); Q3 de 82,56 %, balanced accuracy 83 %, macro F1 annoncé 83 % (à rapprocher du tableau classe par classe).
+    mobilisations:
+    - id: mob_protein_cnn_deep_learning
+      competence_id: deep_learning
+    - id: mob_protein_cnn_cnn
+      competence_id: cnn
+    - id: mob_protein_cnn_pytorch
+      competence_id: pytorch
+    - id: mob_protein_cnn_bioinformatique
+      competence_id: bioinformatique
+  - id: protein_protbert
+    description_factuelle: Extraction d’embeddings ProtBERT et classification de structures secondaires.
+    attribution: Projet collectif; contribution individuelle non détaillée dans la pièce
+    perimetre_ou_resultats: Embeddings de 1 024 dimensions par résidu; classifieur Transformer léger; accuracy 82,23 %, macro F1 81,56 %.
+    mobilisations:
+    - id: mob_protein_protbert_transformers
+      competence_id: transformers
+    - id: mob_protein_protbert_embeddings
+      competence_id: embeddings
+    - id: mob_protein_protbert_deep_learning
+      competence_id: deep_learning
+    - id: mob_protein_protbert_bioinformatique
+      competence_id: bioinformatique
+  points_a_confirmer:
+  - Contribution technique individuelle du candidat dans chaque architecture.
+  - Date/cadre précis et éventuel dépôt de code public.
+  - Écart entre macro F1 CNN affiché (83 %) et moyenne des F1 par classe (~82 %).
+  resume: Comparaison de modèles de machine learning pour prédire la structure secondaire de protéines à partir de séquences.
+- id: prj_crop_sentinel2_2025
+  titre: Classification des cultures à partir de séries temporelles Sentinel-2
+  date: 2025-07
+  cadre: Projet de Machine Learning, MSc Data Science, BHT Berlin
+  equipe: Giovanni Setaro, Noé Coursimaux, Moïse Placier
+  attribution:
+    statut: contribution_principale_declaree_par_le_candidat
+    synthese: À l’initiative du sujet, développement d’une grande partie du code et rédaction de l’intégralité du rapport déclarés par le candidat.
+    limite: La répartition technique détaillée par réalisation entre les membres reste à préciser.
+  secteurs:
+  - agriculture
+  - agritech
+  - geospatial
+  - data
+  description: Chaîne complète de classification des cultures à l’échelle du pixel avec RPG 2023, images Sentinel-2 L2A, Google Earth Engine, réseaux temporels/spatiaux et XGBoost.
+  liens:
+  - https://github.com/MoisePlacier/Crop_type_classification
+  realisations:
+  - id: crop_geodata
+    description_factuelle: Construction d’un jeu de données agricoles géospatiales en fusionnant RPG 2023 et Sentinel-2 L2A.
+    attribution: Projet collectif; contribution individuelle non détaillée dans la pièce
+    perimetre_ou_resultats: 40 zones de 10×10 km réparties en 8 régions françaises, environ 130 000 parcelles; reprojection et harmonisation des classes.
+    mobilisations:
+    - id: mob_crop_geodata_gis
+      competence_id: gis
+    - id: mob_crop_geodata_remote_sensing
+      competence_id: remote_sensing
+    - id: mob_crop_geodata_earth_engine
+      competence_id: earth_engine
+    - id: mob_crop_geodata_data_engineering
+      competence_id: data_engineering
+    - id: mob_crop_geodata_agronomie
+      competence_id: agronomie
+  - id: crop_cleaning
+    description_factuelle: Élaboration de composites mensuels et traitement des pixels nuageux/manquants.
+    attribution: Projet collectif; contribution individuelle non détaillée dans la pièce
+    perimetre_ou_resultats: Masquage par Scene Classification Layer, médiane mensuelle et interpolation temporelle pixel à pixel.
+    mobilisations:
+    - id: mob_crop_cleaning_remote_sensing
+      competence_id: remote_sensing
+    - id: mob_crop_cleaning_preprocessing
+      competence_id: preprocessing
+    - id: mob_crop_cleaning_series_temporelles
+      competence_id: series_temporelles
+    - id: mob_crop_cleaning_python
+      competence_id: python
+  - id: crop_spatial_validation
+    description_factuelle: Conception d’une validation hors zone géographique d’entraînement.
+    attribution: Projet collectif; contribution individuelle non détaillée dans la pièce
+    perimetre_ou_resultats: 1 zone sur 5 par région conservée pour le test; validation croisée 3-fold sur les 32 autres zones pour limiter les fuites spatiales.
+    mobilisations:
+    - id: mob_crop_spatial_validation_validation_modeles
+      competence_id: validation_modeles
+    - id: mob_crop_spatial_validation_evaluation_robustesse
+      competence_id: evaluation_robustesse
+    - id: mob_crop_spatial_validation_gis
+      competence_id: gis
+  - id: crop_cnn
+    description_factuelle: Développement et évaluation d’un modèle hybride CNN-1D temporel et CNN-2D type U-Net spatial.
+    attribution: Projet collectif; contribution individuelle non détaillée dans la pièce
+    perimetre_ou_resultats: Accuracy 87,21 %, macro F1 35,16 % en contexte de fort déséquilibre entre cultures.
+    mobilisations:
+    - id: mob_crop_cnn_deep_learning
+      competence_id: deep_learning
+    - id: mob_crop_cnn_cnn
+      competence_id: cnn
+    - id: mob_crop_cnn_remote_sensing
+      competence_id: remote_sensing
+    - id: mob_crop_cnn_classification
+      competence_id: classification
+  - id: crop_xgboost
+    description_factuelle: Construction d’une comparaison par classification pixel à pixel avec XGBoost.
+    attribution: Projet collectif; contribution individuelle non détaillée dans la pièce
+    perimetre_ou_resultats: Accuracy 80,45 %, macro F1 25,24 %.
+    mobilisations:
+    - id: mob_crop_xgboost_xgboost
+      competence_id: xgboost
+    - id: mob_crop_xgboost_classification
+      competence_id: classification
+    - id: mob_crop_xgboost_validation_modeles
+      competence_id: validation_modeles
+  - id: crop_evaluation
+    description_factuelle: Restitution finale du projet et obtention d’une évaluation favorable.
+    attribution: Projet collectif; contribution individuelle non détaillée dans la pièce
+    perimetre_ou_resultats: Note BHT 1.0 (97 %); commentaire de l’évaluateur sur l’acquisition et le prétraitement, la validation spatiale et l’entraînement sur cluster.
+    mobilisations:
+    - id: mob_crop_evaluation_communication
+      competence_id: communication
+    - id: mob_crop_evaluation_projet_ml
+      competence_id: projet_ml
+    - id: mob_crop_evaluation_hpc
+      competence_id: hpc
+  points_a_confirmer:
+  - Part individuelle sur l’architecture, le prétraitement, le cluster et le rapport.
+  - Logiciels/frameworks exacts utilisés et lien de dépôt personnel public.
+  - Si les métriques sont calculées sur les mêmes pixels et classes entre les modèles.
+  resume: Conception d’une chaîne de classification des cultures à partir de séries temporelles Sentinel-2 et de données agricoles.
+- id: prj_populus_genomics_2026
+  titre: Prédiction de phénotypes chez Populus nigra par sélection génomique de variables
+  date: '2026-02-08'
+  cadre: Projet de sciences des données en partenariat avec INRAE BioForA (Val de Loire)
+  equipe: Moïse Placier et Fabrice Traoré
+  attribution:
+    statut: contribution_principale_declaree_par_le_candidat
+    synthese: À l’initiative du sujet, développement d’une grande partie du code et rédaction de l’intégralité du rapport déclarés par le candidat.
+    limite: La répartition technique détaillée par réalisation entre les membres reste à préciser.
+  secteurs:
+  - agriculture
+  - foresterie
+  - genomique
+  - data
+  - recherche
+  description: Évaluation de la sélection de SNPs selon MLM, FarmCPU et importance Random Forest pour prédire des caractères du peuplier noir; discussion de la structure de population, de la parenté et du déséquilibre de liaison.
+  realisations:
+  - id: populus_data
+    description_factuelle: Exploration de données génomiques haute dimension sur 199 individus de peuplier noir.
+    attribution: Projet collectif; contribution individuelle non détaillée dans la pièce
+    perimetre_ou_resultats: Environ 217 000 SNPs, 11 populations; ACP, structure de population (P), matrice de parenté (K) et déséquilibre de liaison (LD).
+    mobilisations:
+    - id: mob_populus_data_genomique
+      competence_id: genomique
+    - id: mob_populus_data_high_dimensional_data
+      competence_id: high_dimensional_data
+    - id: mob_populus_data_pca
+      competence_id: pca
+    - id: mob_populus_data_modelisation_statistique
+      competence_id: modelisation_statistique
+  - id: populus_selection
+    description_factuelle: Comparaison de plusieurs stratégies de sélection de variants.
+    attribution: Projet collectif; contribution individuelle non détaillée dans la pièce
+    perimetre_ou_resultats: MLM avec effets de structure et kinship, FarmCPU, importance de variables Random Forest; sélection de sous-ensembles de SNPs pour la prédiction.
+    mobilisations:
+    - id: mob_populus_selection_genomique
+      competence_id: genomique
+    - id: mob_populus_selection_selection_variables
+      competence_id: selection_variables
+    - id: mob_populus_selection_modeles_mixtes
+      competence_id: modeles_mixtes
+    - id: mob_populus_selection_random_forest
+      competence_id: random_forest
+  - id: populus_cv
+    description_factuelle: Évaluation par modèles Ridge et Random Forest avec validations croisées.
+    attribution: Projet collectif; contribution individuelle non détaillée dans la pièce
+    perimetre_ou_resultats: Étude de la variation des performances selon le nombre de variables, l’architecture du trait et le signal de population.
+    mobilisations:
+    - id: mob_populus_cv_ridge
+      competence_id: ridge
+    - id: mob_populus_cv_random_forest
+      competence_id: random_forest
+    - id: mob_populus_cv_cross_validation
+      competence_id: cross_validation
+    - id: mob_populus_cv_evaluation_robustesse
+      competence_id: evaluation_robustesse
+  - id: populus_wasserstein
+    description_factuelle: Comparaison de sélections génomiques via distance de Wasserstein et structure de liaison.
+    attribution: Projet collectif; contribution individuelle non détaillée dans la pièce
+    perimetre_ou_resultats: Définition d’un coût de transport d(i,j)=1-r²(i,j); analyse de la divergence des signaux et du recouvrement des SNPs.
+    mobilisations:
+    - id: mob_populus_wasserstein_transport_optimal
+      competence_id: transport_optimal
+    - id: mob_populus_wasserstein_selection_variables
+      competence_id: selection_variables
+    - id: mob_populus_wasserstein_genomique
+      competence_id: genomique
+    - id: mob_populus_wasserstein_methodologie_scientifique
+      competence_id: methodologie_scientifique
+  - id: populus_limites
+    description_factuelle: Identification explicite d’un biais de fuite d’information dans l’évaluation.
+    attribution: Projet collectif; contribution individuelle non détaillée dans la pièce
+    perimetre_ou_resultats: La sélection globale des SNPs avant CV peut entraîner une forte surestimation des R²; limites computationnelles et besoin de validation indépendante discutés.
+    mobilisations:
+    - id: mob_populus_limites_critical_thinking
+      competence_id: critical_thinking
+    - id: mob_populus_limites_evaluation_robustesse
+      competence_id: evaluation_robustesse
+    - id: mob_populus_limites_methodologie_scientifique
+      competence_id: methodologie_scientifique
+  points_a_confirmer:
+  - Contributions exactes respectives des deux co-auteurs.
+  - Implémentation réellement exécutée de chaque algorithme, logiciels et ressources HPC.
+  - Les performances de prédiction ne doivent pas être reprises comme scores généralisables, le rapport reconnaît une fuite d’information.
+  resume: Analyse de stratégies de sélection génomique pour prédire des phénotypes de peuplier noir.

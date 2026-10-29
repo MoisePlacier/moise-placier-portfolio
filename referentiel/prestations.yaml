@@ -1,0 +1,63 @@
+schema_version: 1.0.0
+prestations:
+  positionnement: Ingénieur agronome · Data science · Conseil indépendant
+  titre_accueil: Ingénieur & Data Scientist indépendant
+  accroche: >-
+    J’accompagne les équipes de recherche, les acteurs agricoles et les entreprises
+    dans l’analyse de données, la modélisation statistique et le développement
+    d’outils scientifiques reproductibles.
+  disponibilite: Disponible pour des missions de conseil et de développement, en France et à distance.
+  appel_action:
+    libelle: Discuter d’un projet
+    objet_email: Échange autour d’un projet
+  publics:
+    - id: recrutement
+      titre: Recrutement
+      description: Découvrir le parcours, les expériences et les projets scientifiques.
+      lien: /experiences/
+      libelle_lien: Explorer le parcours
+    - id: clients
+      titre: Clients & partenaires
+      description: Identifier une expertise et échanger autour d’une mission.
+      lien: /prestations/
+      libelle_lien: Découvrir les prestations
+  page:
+    surtitre: Conseil & prestations indépendantes
+    titre: De la donnée brute à des résultats exploitables.
+    introduction: >-
+      Ingénieur agronome spécialisé en data science et statistiques appliquées,
+      j’interviens auprès des équipes de recherche, des entreprises et des acteurs
+      du monde agricole pour concevoir des solutions adaptées à leurs problématiques.
+    expertises:
+      - id: analyse-recherche
+        titre: Analyse statistique & recherche scientifique
+        resume: Des méthodes lisibles, des analyses solides et des résultats communicables.
+        prestations:
+          - Conception de plans d’analyse et accompagnement méthodologique.
+          - Modélisation statistique, biostatistique et méthodes d’inférence.
+          - Production de rapports reproductibles avec R, Python et Quarto.
+          - Visualisation de résultats et assistance à la rédaction scientifique.
+      - id: data-outils
+        titre: Data science & développement d’outils
+        resume: Des traitements structurés, documentés et faciles à reprendre.
+        prestations:
+          - Développement de scripts, pipelines de données et outils d’aide à la décision.
+          - Automatisation de traitements et de rapports.
+          - Modélisation prédictive et évaluation de modèles.
+          - Documentation et livraison de solutions reproductibles.
+      - id: agronomie-procedes
+        titre: Agronomie & procédés industriels
+        resume: Des données reliées aux réalités de terrain, de production et d’expérimentation.
+        prestations:
+          - Analyse de données agricoles et optimisation de processus.
+          - Développement d’outils d’aide à la décision agronomique.
+          - Valorisation des données de production, de capteurs et d’équipements.
+          - Modélisation de procédés et identification de leviers d’amélioration.
+    modalites:
+      titre: Modalités de collaboration
+      texte: >-
+        Missions ponctuelles ou projets de plusieurs semaines, à distance ou sur site
+        selon les besoins. Chaque prestation fait l’objet d’un échange préalable pour
+        définir le périmètre, les livrables et les modalités de collaboration.
+      conclusion: Vous avez un projet ou une problématique à explorer ? Contactez-moi pour en discuter.
+  pied_de_page: Ingénieur & Data Scientist indépendant

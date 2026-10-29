@@ -1,0 +1,463 @@
+schema_version: 1.1.0
+experiences:
+- id: exp_inserm_hug_2026
+  organisation: INSERM UMRS 1155 CoRAKiD × Hôpitaux universitaires de Genève
+  intitule_officiel: Stagiaire statisticien en recherche clinique
+  lieu: Paris / Genève, travail largement à distance
+  periode:
+    debut: 2026-02
+    fin: 2026-07
+  periodes_presence_physique:
+  - periode:
+      debut: 2026-02
+      fin: 2026-07
+    lieu: Hôpital Tenon, Paris, France
+  contexte: Recherche observationnelle en réanimation et modélisation de la récupération rénale après insuffisance rénale aiguë.
+  effectif_analytique:
+    valeur: 3350
+    unite: patients
+  type: stage
+  secteurs:
+  - sante_recherche
+  - biostatistique
+  realisations:
+  - id: inserm_pipeline
+    description_factuelle: 
+      Conception et développement d'une chaîne de
+      traitement reproductible pour l'intégration,
+      l'harmonisation et la structuration de données
+      hospitalières longitudinales en vue d'analyses
+      de recherche clinique.
+    perimetre_ou_resultats: >-
+      Construction d'un entrepôt de données analytique
+      à partir de 37 Go de données cliniques,
+      biologiques, administratives et médicamenteuses
+      issues du système d'information des HUG.
+      Conversion et partitionnement
+      des données au format Parquet, traitement et
+      extraction en SQL avec DuckDB, puis exploitation
+      des jeux analytiques sous R. Harmonisation des
+      nomenclatures, unités et structures de données,
+      contrôles de qualité.
+      Constitution des cohortes selon les critères
+      d'éligibilité et les fenêtres temporelles
+      propres à chaque protocole. Paramétrage des
+      règles d'extraction dans des fichiers YAML
+      versionnés et documentation des variables utilisés,
+      transformations et traitements.
+    
+    mobilisations:
+      - id: mob_inserm_pipeline_etl
+        competence_id: etl
+        ressources:
+          - ressource_id: architecture_donnees
+            manifestations:
+              - id: man_inserm_architecture
+                description: >-
+                  Conception d'un entrepôt analytique local avec DuckDB pour exploiter
+                  environ 37 Go de données hospitalières provenant de systèmes hétérogènes
+                  (données cliniques, administratives, laboratoire etc...).
+          - ressource_id: sql
+            manifestations:
+              - id: man_inserm_sql
+                description: >-
+                  Développement de requêtes SQL pour les jointures, filtrages, conversions
+                  et extractions temporelles afin de limiter les volumes importés dans R.
+          - ressource_id: optimisation_traitements
+            manifestations:
+              - id: man_inserm_optimisation
+                description: >-
+                  Conversion des données au format Parquet et partitionnement déterministe
+                  par patient pour optimiser les traitements et les extractions.
+          - ressource_id: reproductibilite
+            manifestations:
+              - id: man_inserm_pipeline_reproductibilite
+                description: >-
+                  Externalisation des règles d'extraction et des fenêtres temporelles dans
+                  des configurations YAML versionnées, associées à des scripts reproductibles.
+      - id: mob_inserm_pipeline_qualite
+        competence_id: qualite_donnees
+        ressources:
+          - ressource_id: harmonisation_donnees
+            manifestations:
+              - id: man_inserm_harmonisation
+                description: >-
+                  Construction de catalogues d'analytes et harmonisation des nomenclatures,
+                  unités, structures longitudinales et classes médicamenteuses.
+          - ressource_id: controle_qualite_donnees
+            manifestations:
+              - id: man_inserm_controle_qualite
+                description: >-
+                  Vérification des distributions, taux de valeurs manquantes et valeurs
+                  extrêmes, avec discussion clinique des anomalies et des règles de plausibilité.
+          - ressource_id: documentation_technique
+            manifestations:
+              - id: man_inserm_documentation
+                description: >-
+                  Production de dictionnaires documentant la provenance des variables, leurs
+                  unités, les transformations appliquées et leurs rôles analytiques.
+      - id: mob_inserm_pipeline_longitudinal
+        competence_id: donnees_longitudinales
+        ressources:
+          - ressource_id: structuration_temporelle
+            manifestations:
+              - id: man_inserm_temporalite
+                description: >-
+                  Reconstruction des événements cliniques et alignement des observations sur
+                  des origines temporelles communes, en conservant les horodatages et les
+                  intervalles irréguliers entre mesures.
+          - ressource_id: construction_cohortes
+            manifestations:
+              - id: man_inserm_cohortes
+                description: >-
+                  Application reproductible des critères d'éligibilité, d'exclusion, de
+                  censure et des fenêtres d'observation pour constituer les populations
+                  analytiques des différents projets.
+  - id: inserm_inference
+
+    titre: Analyse biostatistique du pronostic rénal en réanimation
+
+    description_factuelle: >-
+      Réalisation d'une analyse rétrospective
+      sur une cohorte de patients en réanimation afin d'évaluer l'association
+      entre les phénotypes du sédiment urinaire
+      et le pronostic rénal à 30 jours après l'épisode
+      d'insuffisance rénale aiguë.
+
+    perimetre_ou_resultats: >-
+      Analyse de 3 350 patients présentant une
+      insuffisance rénale aiguë, avec classification
+      du sédiment urinaire en quatre phénotypes
+      et évaluation du critère composite MAKE30
+      (décès, nouvelle épuration extrarénale ou
+      dysfonction rénale persistante).
+      Estimation des risques relatifs ajustés
+      par régression de Poisson modifiée à variance
+      robuste, après imputation multiple des
+      covariables (15 jeux imputés).
+      Réalisation d'analyses complémentaires par
+      régression multinomiale, modèles linéaires
+      et modèles de Fine-Gray à risques compétitifs,
+      ainsi que d'analyses de sensibilité.
+      Mise en évidence d'une association brute
+      entre les anomalies du sédiment et MAKE30,
+      non retrouvée après ajustement sur les
+      caractéristiques des patients et la gravité
+      clinique.
+    mobilisations:
+    - id: mob_inserm_inference_biostatistique
+      competence_id: biostatistique
+    - id: mob_inserm_inference_regression
+      competence_id: regression
+    - id: mob_inserm_inference_donnees_manquantes
+      competence_id: donnees_manquantes
+    - id: mob_inserm_inference_robustesse
+      competence_id: evaluation_robustesse
+    - id: mob_inserm_inference_recherche_clinique
+      competence_id: recherche_clinique
+    - id: mob_inserm_inference_r
+      competence_id: r
+  - id: inserm_methodologie
+    description_factuelle: Conception et documentation de décisions méthodologiques pour une recherche reproductible.
+    perimetre_ou_resultats: Propositions nouvelles concernant l’architecture analytique, la sélection des variables, la lisibilité, la robustesse et la réutilisation par l’équipe.
+    mobilisations:
+    - id: mob_inserm_methodologie_initiative
+      competence_id: initiative
+    - id: mob_inserm_methodologie_autonomie
+      competence_id: autonomie
+    - id: mob_inserm_methodologie_methodologie_scientifique
+      competence_id: methodologie_scientifique
+    - id: mob_inserm_methodologie_documentation
+      competence_id: documentation
+    - id: mob_inserm_methodologie_reproductibilite
+      competence_id: reproductibilite
+  - id: inserm_dynamique
+    description_factuelle: Adaptation d’un modèle dynamique latent en temps continu pour les trajectoires de créatinine.
+    perimetre_ou_resultats: Travail de modélisation longitudinale utilisant des équations différentielles stochastiques, destiné à caractériser la récupération rénale; projet de publication potentiel.
+    mobilisations:
+    - id: mob_inserm_dynamique_modelisation_dynamique
+      competence_id: modelisation_dynamique
+    - id: mob_inserm_dynamique_donnees_longitudinales
+      competence_id: donnees_longitudinales
+    - id: mob_inserm_dynamique_r
+      competence_id: r
+    - id: mob_inserm_dynamique_recherche_clinique
+      competence_id: recherche_clinique
+  points_a_confirmer:
+  - Répartition exacte des réalisations dans les deux axes scientifiques.
+  resume: Analyse de données cliniques longitudinales pour étudier le pronostic et la récupération rénale après insuffisance rénale aiguë en réanimation.
+- id: exp_gsk_2024
+  organisation: GlaxoSmithKline (GSK), Local Manufacturing Science and Technologies
+  intitule_officiel: Stagiaire Data Scientist
+  lieu: Wavre, Belgique
+  periode:
+    debut: 2024-02
+    fin: 2024-07
+  periodes_presence_physique:
+  - periode:
+      debut: 2024-02
+      fin: 2024-07
+    lieu: Wavre, Belgique
+  type: stage
+  secteurs:
+  - pharma
+  - industrie
+  - data
+  contexte: Analyse et optimisation de procédés de fabrication vaccinale dans un environnement industriel réglementé.
+  realisations:
+  - id: gsk_hu
+    description_factuelle: Développement d’un algorithme Python de programmation linéaire pour sélectionner des lots d’antigènes bruts à combiner.
+    perimetre_ou_resultats: Prise en compte des contraintes de concentration et de volume; présentation à une commission de validation pour une éventuelle intégration ERP.
+    mobilisations:
+    - id: mob_gsk_hu_python
+      competence_id: python
+    - id: mob_gsk_hu_optimisation
+      competence_id: optimisation
+      ressources:
+      - ressource_id: programmation_lineaire
+        manifestations:
+        - id: man_gsk_hu_programmation_lineaire
+          description: Formalisation des contraintes de concentration et de volume pour sélectionner des lots à combiner.
+    - id: mob_gsk_hu_programmation_lineaire
+      competence_id: programmation_lineaire
+    - id: mob_gsk_hu_analyse_besoin
+      competence_id: analyse_besoin
+    - id: mob_gsk_hu_aide_decision
+      competence_id: aide_decision
+  - id: gsk_nlp
+    description_factuelle: Analyse de descriptions textuelles des causes racines de déviations industrielles à l’aide du NLP et du clustering.
+    perimetre_ou_resultats: Extraction via ERP en collaboration avec les équipes de données; identification de récurrences par unité de production pour éclairer l’amélioration continue.
+    mobilisations:
+    - id: mob_gsk_nlp_nlp
+      competence_id: nlp
+    - id: mob_gsk_nlp_analyse_causes
+      competence_id: analyse_causes
+    - id: mob_gsk_nlp_amelioration_continue
+      competence_id: amelioration_continue
+    - id: mob_gsk_nlp_data_pipelines
+      competence_id: data_pipelines
+    - id: mob_gsk_nlp_collaboration
+      competence_id: collaboration
+  - id: gsk_microbio
+    description_factuelle: Analyse de données spatialisées de contamination microbiologique.
+    perimetre_ou_resultats: Caractérisation de la répartition et de la nature des contaminations, utilisée par les équipes opérationnelles pour orienter des mesures correctives.
+    mobilisations:
+    - id: mob_gsk_microbio_analyse_donnees
+      competence_id: analyse_donnees
+    - id: mob_gsk_microbio_qualite
+      competence_id: qualite
+    - id: mob_gsk_microbio_amelioration_continue
+      competence_id: amelioration_continue
+  - id: gsk_chromato
+    description_factuelle: Développement d’un pipeline Python de traitement continu de données chromatographiques.
+    perimetre_ou_resultats: Extraction d’indicateurs et détection de dérives/anomalies des colonnes de purification; lien avec le programme de jumeau numérique.
+    mobilisations:
+    - id: mob_gsk_chromato_python
+      competence_id: python
+    - id: mob_gsk_chromato_automatisation
+      competence_id: automatisation
+    - id: mob_gsk_chromato_series_temporelles
+      competence_id: series_temporelles
+    - id: mob_gsk_chromato_monitoring_procedes
+      competence_id: monitoring_procedes
+    - id: mob_gsk_chromato_data_pipelines
+      competence_id: data_pipelines
+  - id: gsk_stats
+    description_factuelle: Réalisation d’analyses statistiques pour les équipes métiers.
+    perimetre_ou_resultats: Recueil des besoins, accès aux données, tests, intervalles de confiance, régression et restitution d’analyses.
+    mobilisations:
+    - id: mob_gsk_stats_r
+      competence_id: r
+    - id: mob_gsk_stats_regression
+      competence_id: regression
+    - id: mob_gsk_stats_statistiques
+      competence_id: statistiques
+    - id: mob_gsk_stats_analyse_besoin
+      competence_id: analyse_besoin
+    - id: mob_gsk_stats_communication
+      competence_id: communication
+  - id: gsk_communication
+    description_factuelle: Présentation et diffusion de résultats analytiques auprès des équipes internes.
+    perimetre_ou_resultats: Réunions métier, présentations techniques et newsletter mensuelle.
+    mobilisations:
+    - id: mob_gsk_communication_communication
+      competence_id: communication
+    - id: mob_gsk_communication_vulgarisation
+      competence_id: vulgarisation
+    - id: mob_gsk_communication_collaboration
+      competence_id: collaboration
+  points_a_confirmer:
+  - Pipeline de chromatographie effectivement intégré en production ou seulement destiné au jumeau numérique.
+  - Algorithme de programmation linéaire effectivement déployé dans l’ERP ou uniquement présenté en commission.
+  resume: Développement d’outils d’analyse et d’optimisation de données au service de procédés de fabrication vaccinale.
+- id: exp_agriviva_2024_2025
+  organisation: Cuisinons nos paysages / Agriviva
+  intitule_officiel: Stagiaire Ingénieur procédés agroalimentaires
+  lieu: Montpellier, France
+  periode:
+    debut: 2024-08
+    fin: 2025-01
+  periodes_presence_physique:
+  - periode:
+      debut: 2024-08
+      fin: 2025-02
+    lieu: Montpellier, France
+  type: stage
+  secteurs:
+  - agroalimentaire
+  - industrie
+  contexte: Lancement d’un atelier de transformation à chaud de légumineuses destinées notamment à la restauration collective.
+  realisations:
+  - id: agriviva_atelier
+    description_factuelle: Déploiement opérationnel sur site d’un atelier de cuisson-refroidissement de légumineuses.
+    perimetre_ou_resultats: Définition des barèmes de cuisson et ratios d’eau pour pois chiches, lentilles et haricots; réception et démarrage des équipements, planification des premiers lots. L’atelier de cuisson a généré 200 k€ de chiffre d’affaires au cours de l’année scolaire 2025/2026.
+    mobilisations:
+    - id: mob_agriviva_atelier_gestion_projet
+      competence_id: gestion_projet
+      ressources:
+      - ressource_id: industrialisation
+        manifestations:
+        - id: man_agriviva_atelier_industrialisation
+          description: Définition des paramètres de cuisson et démarrage des équipements de l’atelier.
+    - id: mob_agriviva_atelier_ingenierie_procedes
+      competence_id: ingenierie_procedes
+    - id: mob_agriviva_atelier_industrialisation
+      competence_id: industrialisation
+    - id: mob_agriviva_atelier_r_and_d
+      competence_id: r_and_d
+    - id: mob_agriviva_atelier_production
+      competence_id: production
+  - id: agriviva_haccp
+    description_factuelle: Intégration du nouvel atelier dans le dispositif de sécurité sanitaire.
+    perimetre_ou_resultats: Application de la méthode HACCP, mise à jour du plan de maîtrise sanitaire, validation de durées de conservation, modes opératoires et formation.
+    mobilisations:
+    - id: mob_agriviva_haccp_haccp
+      competence_id: haccp
+    - id: mob_agriviva_haccp_qualite
+      competence_id: qualite
+    - id: mob_agriviva_haccp_documentation
+      competence_id: documentation
+    - id: mob_agriviva_haccp_formation
+      competence_id: formation
+  - id: agriviva_ensachage
+    description_factuelle: Mise en service et synchronisation d’une peseuse linéaire avec une ensacheuse verticale.
+    perimetre_ou_resultats: Développement des programmes par produit, lancement de la ligne et formation des opérateurs.
+    mobilisations:
+    - id: mob_agriviva_ensachage_mise_en_service
+      competence_id: mise_en_service
+    - id: mob_agriviva_ensachage_automatismes
+      competence_id: automatismes
+    - id: mob_agriviva_ensachage_production
+      competence_id: production
+    - id: mob_agriviva_ensachage_formation
+      competence_id: formation
+  - id: agriviva_gmao
+    description_factuelle: Étude comparative de logiciels de maintenance et déploiement d’une GMAO.
+    perimetre_ou_resultats: Construction d’un plan de maintenance préventive à partir des notices du parc machines et paramétrage dans l’outil retenu.
+    mobilisations:
+    - id: mob_agriviva_gmao_gmao
+      competence_id: gmao
+    - id: mob_agriviva_gmao_maintenance_preventive
+      competence_id: maintenance_preventive
+    - id: mob_agriviva_gmao_analyse_besoin
+      competence_id: analyse_besoin
+    - id: mob_agriviva_gmao_gestion_projet
+      competence_id: gestion_projet
+  - id: agriviva_kpi
+    description_factuelle: Développement de KPI de productivité et de pertes en transformation végétale.
+    perimetre_ou_resultats: Conception d’abaques, organisation de la collecte de données; recrutement et encadrement d’un stagiaire affecté aux mesures de pertes.
+    mobilisations:
+    - id: mob_agriviva_kpi_kpi
+      competence_id: kpi
+    - id: mob_agriviva_kpi_performance
+      competence_id: performance
+    - id: mob_agriviva_kpi_encadrement
+      competence_id: encadrement
+    - id: mob_agriviva_kpi_analyse_donnees
+      competence_id: analyse_donnees
+  points_a_confirmer:
+  - 'Fin exacte du stage : janvier ou février 2025 selon documents.'
+  - 'Validation des DLC : protocole, organisme de validation, durées précises ?'
+  resume: Déploiement opérationnel d’un atelier de transformation à chaud de légumineuses, de la définition des procédés au démarrage de la production.
+- id: exp_normandie_arome_2019_2025
+  organisation: Normandie Arôme
+  intitule_officiel: Responsable de production et missions d’optimisation des procédés
+  lieu: Foucrainville, France
+  periode:
+    debut: '2019'
+    fin: '2025'
+    precision: plusieurs CDD / saisons
+  periodes_presence_physique:
+  - periode:
+      debut: 2021-07
+      fin: 2021-08
+    lieu: Foucrainville, France
+  - periode:
+      debut: 2023-07
+      fin: 2023-08
+    lieu: Foucrainville, France
+  - periode:
+      debut: 2026-08
+      fin: 2026-08
+    lieu: Foucrainville, France
+  type: emplois_saisonniers_et_mission_initiative
+  secteurs:
+  - agriculture
+  - agroalimentaire
+  - industrie
+  contexte: Distillation de plantes aromatiques et médicinales en huiles essentielles.
+  realisations:
+  - id: normandie_production
+    description_factuelle: Conduite opérationnelle et suivi d’une unité industrielle de distillation.
+    perimetre_ou_resultats: Gestion du fonctionnement et des incidents, dans une unité pouvant traiter jusqu’à 100 tonnes de matière végétale par jour.
+    mobilisations:
+    - id: mob_normandie_production_production
+      competence_id: production
+    - id: mob_normandie_production_exploitation
+      competence_id: exploitation
+    - id: mob_normandie_production_resolution_problemes
+      competence_id: resolution_problemes
+    - id: mob_normandie_production_autonomie
+      competence_id: autonomie
+  - id: normandie_database
+    description_factuelle: Proposition et construction d’une base de suivi des paramètres de production sous Access.
+    perimetre_ou_resultats: Formulaire de saisie centralisant variétés, parcelles, récoltes, stockage, durée de distillation et masses traitées.
+    mobilisations:
+    - id: mob_normandie_database_bases_donnees
+      competence_id: bases_donnees
+    - id: mob_normandie_database_access
+      competence_id: access
+    - id: mob_normandie_database_structuration_donnees
+      competence_id: structuration_donnees
+    - id: mob_normandie_database_initiative
+      competence_id: initiative
+    - id: mob_normandie_database_analyse_besoin
+      competence_id: analyse_besoin
+  - id: normandie_optimisation
+    description_factuelle: Développement d’un modèle prédictif exponentiel de cinétique d’extraction des huiles essentielles.
+    perimetre_ou_resultats: Estimation du débit résiduel pour ajuster les fins de cycles; gain de durée annoncé entre 5 et 30 % selon les conditions.
+    mobilisations:
+    - id: mob_normandie_optimisation_modelisation_dynamique
+      competence_id: modelisation_dynamique
+    - id: mob_normandie_optimisation_optimisation
+      competence_id: optimisation
+    - id: mob_normandie_optimisation_data_pipelines
+      competence_id: data_pipelines
+    - id: mob_normandie_optimisation_ingenierie_procedes
+      competence_id: ingenierie_procedes
+  - id: normandie_microdistillation
+    description_factuelle: Conception d’un banc de micro-distillation pour les essais de R&D.
+    perimetre_ou_resultats: Étude à petite échelle de l’effet du préfanage, du broyage et d’autres paramètres sur les rendements.
+    mobilisations:
+    - id: mob_normandie_microdistillation_r_and_d
+      competence_id: r_and_d
+    - id: mob_normandie_microdistillation_experimentation
+      competence_id: experimentation
+    - id: mob_normandie_microdistillation_ingenierie_procedes
+      competence_id: ingenierie_procedes
+    - id: mob_normandie_microdistillation_agronomie
+      competence_id: agronomie
+  points_a_confirmer:
+  - Dates des CDD, statut exact de responsable et dimension éventuelle du management.
+  - Résultats expérimentaux quantifiés du banc de micro-distillation.
+  resume: Conduite de production, expérimentation et optimisation de procédés de distillation de plantes aromatiques.

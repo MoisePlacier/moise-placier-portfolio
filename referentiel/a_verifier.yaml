@@ -1,0 +1,30 @@
+schema_version: 1.1.0
+questions:
+- id: Q01
+  objet: Attribution individuelle
+  question: 'Pour les projets Populus, ProteinNet et Sentinel-2 : préciser les composants ou analyses développés, testés et rédigés personnellement, afin d’associer chaque réalisation à une contribution technique exacte. La contribution principale (initiation des sujets, grande partie du code, rédaction des rapports) est déclarée par le candidat dans S12.'
+  priorite: moyenne
+- id: Q03
+  objet: GSK déploiement
+  question: L’algorithme HU est-il intégré à l’ERP ? Le pipeline chromatographique est-il réellement déployé dans le digital twin ?
+  priorite: haute
+- id: Q05
+  objet: Impact Normandie Arôme
+  question: Gain de 5–30 % déclaré par le candidat; documenter la méthode de mesure seulement si ce chiffre est repris dans un CV.
+  priorite: continue
+- id: Q06
+  objet: Expérience de management
+  question: Préciser durée, responsabilités et taille d’équipe encadrée en distillation et à Agriviva.
+  priorite: moyenne
+- id: Q08
+  objet: Dates et diplômes
+  question: Préciser la date de fin Agriviva (janvier ou février 2025) si elle doit figurer dans un CV.
+  priorite: continue
+- id: Q09
+  objet: Langues
+  question: Vérifier le score TOEFL et le niveau CECRL officiellement attesté ; vérifier espagnol B1.
+  priorite: moyenne
+- id: Q10
+  objet: Projets additionnels
+  question: 'Ajouter les réalisations et ressources manquantes : projets de formation, codes, portfolios, missions personnelles, posters ou articles.'
+  priorite: continue

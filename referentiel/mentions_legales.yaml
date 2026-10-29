@@ -1,0 +1,39 @@
+schema_version: 1.0.0
+mentions_legales:
+  source_id: S14
+  derniere_mise_a_jour: 20 octobre 2026
+  editeur:
+    nom: Moïse Placier EI
+    forme_juridique: Entrepreneur individuel
+    siren: '131709032'
+    siret: '13170903200018'
+    rne: Immatriculé au Registre national des entreprises le 19 octobre 2026
+    ape: '6202A — Conseil en systèmes et logiciels informatiques'
+    activite: >-
+      Conseil et prestations intellectuelles en science des données, statistiques
+      appliquées et informatique ; conception, développement et documentation
+      d’outils logiciels, de scripts et de solutions d’aide à la décision.
+  contact:
+    email: moise.placier@gmail.com
+    telephone: +33 6 17 65 04 30
+  directeur_publication: Moïse Placier
+  hebergement:
+    statut: Hébergeur
+    texte: >-
+      Ce site est hébergé par OVH SAS, 2 rue Kellermann, 59100 Roubaix, France.
+      Téléphone : +33 (0)3 20 82 73 32. Offre Hébergement Web STARTER, datacentre
+      eu-west-gra.
+  donnees_personnelles:
+    titre: Données personnelles
+    texte: >-
+      Ce site ne comporte pas de formulaire de contact ni de compte utilisateur.
+      Les données que vous choisissez de transmettre par courriel sont utilisées
+      uniquement pour répondre à votre demande et assurer le suivi des échanges.
+      Pour toute question relative à vos données, vous pouvez écrire à l’adresse
+      de contact indiquée ci-dessus.
+  propriete_intellectuelle:
+    titre: Propriété intellectuelle
+    texte: >-
+      Les contenus de ce site, sauf mention contraire, sont la propriété de
+      Moïse Placier. Toute reproduction, représentation, modification ou
+      exploitation non autorisée est interdite, hors exceptions prévues par la loi.

@@ -1,0 +1,284 @@
+schema_version: 1.1.0
+note: Les compétences sont reliées aux réalisations par des mobilisations. Leur typologie est enrichie progressivement.
+competences:
+- id: gestion_projet
+  nom: Gestion de projets techniques
+  domaine: Pilotage et relations professionnelles
+  type: competence_integree
+- id: analyse_besoin
+  nom: Analyse du besoin métier
+  domaine: Pilotage et relations professionnelles
+- id: autonomie
+  nom: Autonomie
+  domaine: Pilotage et relations professionnelles
+- id: initiative
+  nom: Initiative et proposition de solutions
+  domaine: Pilotage et relations professionnelles
+- id: collaboration
+  nom: Coordination interdisciplinaire
+  domaine: Pilotage et relations professionnelles
+- id: communication
+  nom: Communication et restitution technique
+  domaine: Pilotage et relations professionnelles
+- id: documentation
+  nom: Documentation technique
+  domaine: Pilotage et relations professionnelles
+- id: formation
+  nom: Formation de collaborateurs et opérateurs
+  domaine: Pilotage et relations professionnelles
+- id: encadrement
+  nom: Encadrement de proximité
+  domaine: Pilotage et relations professionnelles
+- id: vulgarisation
+  nom: Vulgarisation scientifique et technique
+  domaine: Pilotage et relations professionnelles
+- id: critical_thinking
+  nom: Esprit critique et analyse des limites
+  domaine: Pilotage et relations professionnelles
+- id: r
+  nom: R
+  domaine: Données, programmation et informatique
+- id: python
+  nom: Python
+  domaine: Données, programmation et informatique
+- id: etl
+  nom: ETL et structuration de données hétérogènes
+  domaine: Données, programmation et informatique
+  type: savoir_faire
+- id: architecture_donnees
+  nom: Architecture de données analytique
+  domaine: Données, programmation et informatique
+  type: savoir_faire
+- id: sql
+  nom: SQL et interrogation de données
+  domaine: Données, programmation et informatique
+- id: optimisation_traitements
+  nom: Optimisation de traitements de données
+  domaine: Données, programmation et informatique
+- id: qualite_donnees
+  nom: Qualité des données
+  domaine: Données, programmation et informatique
+  type: savoir_faire
+- id: harmonisation_donnees
+  nom: Harmonisation de données hétérogènes
+  domaine: Données, programmation et informatique
+- id: controle_qualite_donnees
+  nom: Contrôle qualité des données
+  domaine: Données, programmation et informatique
+- id: documentation_technique
+  nom: Documentation de données et traitements
+  domaine: Données, programmation et informatique
+- id: structuration_temporelle
+  nom: Structuration temporelle des données
+  domaine: Données, programmation et informatique
+- id: construction_cohortes
+  nom: Construction de cohortes analytiques
+  domaine: Données, programmation et informatique
+- id: bases_donnees
+  nom: Conception de bases de données
+  domaine: Données, programmation et informatique
+- id: access
+  nom: Microsoft Access
+  domaine: Données, programmation et informatique
+- id: data_pipelines
+  nom: Pipelines de traitement automatisés
+  domaine: Données, programmation et informatique
+- id: earth_engine
+  nom: Google Earth Engine
+  domaine: Données, programmation et informatique
+- id: gis
+  nom: Géomatique et données spatiales
+  domaine: Données, programmation et informatique
+- id: remote_sensing
+  nom: Télédétection Sentinel-2
+  domaine: Données, programmation et informatique
+- id: hpc
+  nom: Calcul sur cluster HPC
+  domaine: Données, programmation et informatique
+- id: preprocessing
+  nom: Prétraitement des données
+  domaine: Données, programmation et informatique
+- id: feature_engineering
+  nom: Construction de descripteurs
+  domaine: Données, programmation et informatique
+- id: reproductibilite
+  nom: Reproductibilité et traçabilité analytique
+  domaine: Données, programmation et informatique
+  type: savoir_faire
+- id: donnees_longitudinales
+  nom: Analyse de données longitudinales
+  domaine: Données, programmation et informatique
+- id: analyse_donnees
+  nom: Analyse de données
+  domaine: Données, programmation et informatique
+- id: automatisation
+  nom: Automatisation de traitements
+  domaine: Données, programmation et informatique
+- id: structuration_donnees
+  nom: Structuration de données de production
+  domaine: Données, programmation et informatique
+- id: data_engineering
+  nom: Ingénierie de données (projet)
+  domaine: Données, programmation et informatique
+- id: biostatistique
+  nom: Biostatistique
+  domaine: Statistiques, IA et recherche
+- id: statistiques
+  nom: Statistiques appliquées
+  domaine: Statistiques, IA et recherche
+- id: regression
+  nom: Régression statistique
+  domaine: Statistiques, IA et recherche
+- id: donnees_manquantes
+  nom: Imputation et données manquantes
+  domaine: Statistiques, IA et recherche
+- id: evaluation_robustesse
+  nom: Validation et analyses de sensibilité
+  domaine: Statistiques, IA et recherche
+- id: modelisation_statistique
+  nom: Modélisation statistique
+  domaine: Statistiques, IA et recherche
+- id: modelisation_dynamique
+  nom: Modélisation dynamique
+  domaine: Statistiques, IA et recherche
+- id: series_temporelles
+  nom: Séries temporelles
+  domaine: Statistiques, IA et recherche
+- id: machine_learning
+  nom: Machine learning
+  domaine: Statistiques, IA et recherche
+- id: nlp
+  nom: NLP / text mining
+  domaine: Statistiques, IA et recherche
+- id: random_forest
+  nom: Random Forest
+  domaine: Statistiques, IA et recherche
+- id: ridge
+  nom: Régression Ridge
+  domaine: Statistiques, IA et recherche
+- id: cnn
+  nom: Réseaux convolutionnels CNN
+  domaine: Statistiques, IA et recherche
+- id: deep_learning
+  nom: Deep learning
+  domaine: Statistiques, IA et recherche
+- id: transformers
+  nom: Transformers / modèles de séquence
+  domaine: Statistiques, IA et recherche
+- id: embeddings
+  nom: Embeddings de séquences
+  domaine: Statistiques, IA et recherche
+- id: xgboost
+  nom: XGBoost
+  domaine: Statistiques, IA et recherche
+- id: cross_validation
+  nom: Validation croisée
+  domaine: Statistiques, IA et recherche
+- id: pca
+  nom: ACP / analyse factorielle
+  domaine: Statistiques, IA et recherche
+- id: selection_variables
+  nom: Sélection de variables haute dimension
+  domaine: Statistiques, IA et recherche
+- id: modeles_mixtes
+  nom: Modèles statistiques à effets mixtes
+  domaine: Statistiques, IA et recherche
+- id: transport_optimal
+  nom: Distances de Wasserstein / transport optimal
+  domaine: Statistiques, IA et recherche
+- id: high_dimensional_data
+  nom: Données à très haute dimension
+  domaine: Statistiques, IA et recherche
+- id: genomique
+  nom: Génomique / marqueurs SNP
+  domaine: Statistiques, IA et recherche
+- id: bioinformatique
+  nom: Bioinformatique et séquences protéiques
+  domaine: Statistiques, IA et recherche
+- id: pytorch
+  nom: PyTorch
+  domaine: Statistiques, IA et recherche
+- id: methodologie_scientifique
+  nom: Méthodologie scientifique et critique
+  domaine: Statistiques, IA et recherche
+- id: recherche_clinique
+  nom: Recherche clinique observationnelle
+  domaine: Statistiques, IA et recherche
+- id: validation_modeles
+  nom: Évaluation et validation de modèles
+  domaine: Statistiques, IA et recherche
+- id: classification
+  nom: Classification supervisée
+  domaine: Statistiques, IA et recherche
+- id: projet_ml
+  nom: Réalisation de projet machine learning de bout en bout
+  domaine: Statistiques, IA et recherche
+- id: ingenierie_procedes
+  nom: Ingénierie et optimisation des procédés
+  domaine: Industrie et production
+- id: industrialisation
+  nom: Industrialisation et démarrage d’atelier
+  domaine: Industrie et production
+  type: savoir_faire
+- id: mise_en_service
+  nom: Mise en service d’équipements
+  domaine: Industrie et production
+- id: production
+  nom: Conduite et suivi de production
+  domaine: Industrie et production
+- id: exploitation
+  nom: Exploitation industrielle
+  domaine: Industrie et production
+- id: optimisation
+  nom: Optimisation mathématique et opérationnelle
+  domaine: Industrie et production
+  type: competence_integree
+- id: programmation_lineaire
+  nom: Programmation linéaire
+  domaine: Industrie et production
+  type: savoir
+- id: r_and_d
+  nom: R&D appliquée / expérimentation
+  domaine: Industrie et production
+- id: qualite
+  nom: Qualité et maîtrise des procédés
+  domaine: Industrie et production
+- id: haccp
+  nom: Démarche HACCP
+  domaine: Industrie et production
+- id: gmao
+  nom: Déploiement GMAO
+  domaine: Industrie et production
+- id: maintenance_preventive
+  nom: Maintenance préventive
+  domaine: Industrie et production
+- id: kpi
+  nom: Indicateurs de performance industrielle
+  domaine: Industrie et production
+- id: performance
+  nom: Analyse de performance opérationnelle
+  domaine: Industrie et production
+- id: monitoring_procedes
+  nom: Surveillance et détection de dérives
+  domaine: Industrie et production
+- id: analyse_causes
+  nom: Analyse des causes racines
+  domaine: Industrie et production
+- id: amelioration_continue
+  nom: Amélioration continue
+  domaine: Industrie et production
+- id: automatismes
+  nom: Paramétrage et synchronisation d’équipements
+  domaine: Industrie et production
+- id: aide_decision
+  nom: Conception d’outils d’aide à la décision
+  domaine: Industrie et production
+- id: resolution_problemes
+  nom: Résolution de problèmes opérationnels
+  domaine: Industrie et production
+- id: agronomie
+  nom: Connaissances agronomiques
+  domaine: Industrie et production
+- id: experimentation
+  nom: Expérimentation en procédés
+  domaine: Industrie et production

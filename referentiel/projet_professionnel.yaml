@@ -1,0 +1,7 @@
+schema_version: 1.1.0
+projet_professionnel:
+  objectifs_actuels:
+  - Premier emploi ; secteur et famille de métiers ouverts.
+  familles_metiers_explorees:
+  - procedes
+  competences_a_developper: []

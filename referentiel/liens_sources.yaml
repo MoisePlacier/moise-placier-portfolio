@@ -1,0 +1,56 @@
+schema_version: 1.1.0
+liens_sources:
+- id: ls_0001
+  source_id: S02
+  cible:
+    type: experience
+    id: exp_inserm_hug_2026
+  relation: atteste
+  localisation: p.1-2
+- id: ls_0013
+  source_id: S07
+  cible:
+    type: experience
+    id: exp_gsk_2024
+  relation: atteste
+  localisation: p.1
+- id: ls_0014
+  source_id: S08
+  cible:
+    type: experience
+    id: exp_gsk_2024
+  relation: atteste
+  localisation: p.1
+- id: ls_0051
+  source_id: S12
+  cible:
+    type: projet
+    id: prj_protein_structure_2025
+  relation: atteste
+- id: ls_0058
+  source_id: S12
+  cible:
+    type: projet
+    id: prj_crop_sentinel2_2025
+  relation: atteste
+- id: ls_0064
+  source_id: S12
+  cible:
+    type: projet
+    id: prj_populus_genomics_2026
+  relation: atteste
+- id: ls_0071
+  source_id: S13
+  cible:
+    type: experience
+    id: exp_agriviva_2024_2025
+  relation: atteste
+  localisation: p.1
+- id: ls_0072
+  source_id: S14
+  cible:
+    type: identite
+    id: identite
+  relation: atteste
+  localisation: pp. 1, 3-5
+  commentaire: Justifie les informations d’identification et d’immatriculation de l’entrepreneur individuel.
