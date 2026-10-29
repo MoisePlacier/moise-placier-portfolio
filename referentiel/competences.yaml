@@ -135,6 +135,14 @@ competences:
 - id: evaluation_robustesse
   nom: Validation et analyses de sensibilité
   domaine: Statistiques, IA et recherche
+- id: propagation_incertitude
+  nom: Propagation de l’incertitude dans une chaîne d’analyse
+  domaine: Statistiques, IA et recherche
+  type: savoir_faire
+  description: >-
+    Combiner des tirages de paramètres et des rééchantillonnages pour tenir compte
+    de l’incertitude de quantités estimées utilisées dans une analyse ultérieure,
+    en explicitant les dépendances préservées et les approximations retenues.
 - id: modelisation_statistique
   nom: Modélisation statistique
   domaine: Statistiques, IA et recherche
