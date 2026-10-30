@@ -4,6 +4,7 @@ import { catalogue, prestations } from "../lib/catalogue";
 import { withBase } from "../lib/paths";
 
 const identity = catalogue.identite as Record<string, string>;
+const emailHref = `mailto:${identity.email}?subject=${encodeURIComponent(prestations.appel_action.objet_email)}`;
 const navigationCards = [
   {
     title: "Parcours & CV",
@@ -64,5 +65,13 @@ const navigationCards = [
         </a>
       ))}
     </div>
+  </section>
+
+  <section class="shell home-contact" aria-label="Contact direct">
+    <div>
+      <span class="eyebrow">Discuter d’un projet</span>
+      <h2>Un besoin d’analyse, de modélisation ou d’outillage&nbsp;?</h2>
+    </div>
+    <a class="button button-dark" href={emailHref}>Écrire à {identity.email} <span>→</span></a>
   </section>
 </BaseLayout>

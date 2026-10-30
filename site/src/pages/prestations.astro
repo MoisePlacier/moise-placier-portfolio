@@ -1,6 +1,9 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
-import { prestations } from "../lib/catalogue";
+import { catalogue, prestations } from "../lib/catalogue";
+
+const identity = catalogue.identite as Record<string, string>;
+const emailHref = `mailto:${identity.email}?subject=${encodeURIComponent(prestations.appel_action.objet_email)}`;
 ---
 
 <BaseLayout title="Conseil & prestations — Moïse Placier" description={prestations.page.introduction}>
@@ -48,6 +51,7 @@ import { prestations } from "../lib/catalogue";
     <div>
       <p>{prestations.page.modalites.texte}</p>
       {prestations.page.modalites.texte_secondaire && <p>{prestations.page.modalites.texte_secondaire}</p>}
+      <a class="button button-light" href={emailHref}>Écrire à {identity.email} <span>→</span></a>
     </div>
   </section>
 </BaseLayout>

@@ -351,6 +351,10 @@ h2 { font: 400 clamp(2rem, 4vw, 3.6rem)/1 var(--serif); letter-spacing: -.045em;
 .home-navigation-card--cream:hover, .home-navigation-card--cream:focus-visible { background: #E2EADF; }
 .home-navigation-link { display: flex; align-items: center; justify-content: space-between; gap: 1rem; color: var(--accent-strong); font-size: .82rem; font-weight: 800; }
 .home-navigation-link b { font-size: 1.15rem; }
+.home-contact { display: flex; align-items: end; justify-content: space-between; gap: 2rem; padding: 2.8rem 0 5.5rem; }
+.home-contact h2 { max-width: 19ch; font-size: clamp(1.8rem, 3vw, 2.8rem); }
+.home-contact .eyebrow { margin-bottom: .75rem; }
+.home-contact .button { flex: none; }
 .project-description { padding: 1.5rem 0 3rem; border-bottom: 1px solid var(--line); }
 .project-description p { max-width: 74ch; font-size: 1.1rem; }
 .technical-report { padding: 5.5rem 0 7rem; }
@@ -484,6 +488,7 @@ h2 { font: 400 clamp(2rem, 4vw, 3.6rem)/1 var(--serif); letter-spacing: -.045em;
   .service-directory article { padding: 2.2rem 0; }
   .collaboration-panel { padding: 2rem; margin-bottom: 3rem; }
   .home-navigation-card { min-height: 250px; }
+  .home-contact { align-items: flex-start; flex-direction: column; padding: 2.2rem 0 3.5rem; }
   .legal-directory, .legal-copy { grid-template-columns: 1fr; gap: 2.8rem; }
   .legal-directory { padding-bottom: 3rem; }
   .legal-details div { grid-template-columns: 1fr; gap: .2rem; }
