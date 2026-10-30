@@ -21,13 +21,20 @@ def parse_args() -> argparse.Namespace:
         default=Path("build/catalogue/catalogue.json"),
         help="Chemin de sortie, relatif à la racine du projet par défaut.",
     )
+    parser.add_argument(
+        "--allow-missing-internal-files",
+        action="store_true",
+        help="Autorise l'absence des fichiers référencés à visibilité interne.",
+    )
     return parser.parse_args()
 
 
 def main() -> int:
     args = parse_args()
     output = args.sortie if args.sortie.is_absolute() else ROOT / args.sortie
-    bundle = validate_reference(ROOT)
+    bundle = validate_reference(
+        ROOT, allow_missing_internal_files=args.allow_missing_internal_files
+    )
     objects: dict[str, dict] = {}
     realizations: dict[str, dict] = {}
     competence_to_mobilisations: dict[str, list[dict]] = defaultdict(list)

@@ -13,9 +13,18 @@ const cataloguePath = "site/src/data/catalogue.json";
 const documentsSource = resolve(projectRoot, "documents", "publics");
 const documentsTarget = resolve(siteRoot, "public", "documents");
 
+const catalogueArguments = [
+  resolve(projectRoot, "scripts", "construire_catalogue.py"),
+  "--sortie",
+  cataloguePath,
+];
+if (process.env.GITHUB_ACTIONS) {
+  catalogueArguments.push("--allow-missing-internal-files");
+}
+
 const result = spawnSync(
   python,
-  [resolve(projectRoot, "scripts", "construire_catalogue.py"), "--sortie", cataloguePath],
+  catalogueArguments,
   { cwd: projectRoot, stdio: "inherit" }
 );
 

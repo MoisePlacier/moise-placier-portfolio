@@ -23,7 +23,9 @@ def duplicate_ids(ids: list[str], label: str, errors: list[str]) -> None:
         errors.append(f"{label}: IDs dupliqués ({', '.join(duplicates)}).")
 
 
-def validate_reference(project_root: Path) -> ReferenceBundle:
+def validate_reference(
+    project_root: Path, *, allow_missing_internal_files: bool = False
+) -> ReferenceBundle:
     bundle = load_reference(project_root)
     errors: list[str] = []
     all_objects: dict[str, str] = {}
@@ -82,6 +84,8 @@ def validate_reference(project_root: Path) -> ReferenceBundle:
             errors.append(f"{source.id}: chemin hors projet ({source.fichier}).")
             continue
         if not source_path.is_file():
+            if allow_missing_internal_files and source.visibilite == "interne":
+                continue
             errors.append(f"{source.id}: fichier source introuvable ({source.fichier}).")
             continue
         if source.format == "pdf" and source_path.suffix.lower() != ".pdf":
