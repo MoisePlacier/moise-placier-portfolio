@@ -46,7 +46,7 @@ nav a { color: var(--muted); }
 nav a.active, nav a:hover { color: var(--ink); }
 .header-contact { display: flex; gap: .45rem; align-items: center; }
 .header-contact span, .text-link span, .button span { color: var(--accent-strong); font-size: 1rem; }
-.hero { padding: 3.8rem 0 3rem; }
+.hero { padding: 3.8rem 0 .25rem; }
 .eyebrow { color: var(--muted); display: block; margin-bottom: 1rem; }
 .hero-grid { display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(260px, .65fr); gap: clamp(3rem, 9vw, 9rem); align-items: end; }
 .hero-portrait-card { width: min(100%, 330px); justify-self: end; }
@@ -92,7 +92,7 @@ h2 { font: 400 clamp(2rem, 4vw, 3.6rem)/1 var(--serif); letter-spacing: -.045em;
 .card-role { font-size: .88rem; color: var(--ink-soft); margin-bottom: 1.25rem; }
 .experience-card > p:last-of-type { font-size: .94rem; color: var(--ink-muted); }
 .card-arrow { margin-top: auto; display: flex; justify-content: space-between; font-size: .85rem; font-weight: 700; }
-.services-preview { padding: 1.3rem 0 1.4rem; }
+.services-preview { padding: 0 0 1.4rem; }
 .services-preview .section-heading { margin-bottom: 0; }
 .service-strip { display: grid; grid-template-columns: repeat(3, 1fr); border-top: 1px solid var(--line); }
 .service-strip article { min-height: 220px; padding: 1.3rem 1.5rem 1.7rem 0; border-right: 1px solid var(--line); }
@@ -114,11 +114,12 @@ h2 { font: 400 clamp(2rem, 4vw, 3.6rem)/1 var(--serif); letter-spacing: -.045em;
 .page-hero { padding: 5rem 0 3.3rem; border-bottom: 1px solid var(--line); }
 .page-hero h1 { max-width: 13ch; font-size: clamp(3rem, 6vw, 5.6rem); }
 .page-hero p { color: var(--ink-soft); font-size: 1.1rem; max-width: 58ch; margin-top: 1.5rem; }
-.services-hero { padding-bottom: 4.6rem; }
+.services-hero { padding-bottom: 4.6rem; border-bottom: 0; }
 .services-hero h1 { max-width: 15ch; }
 .services-availability { display: block; margin-top: 1.45rem; color: var(--accent-strong); font-size: .88rem; font-weight: 800; }
 .service-directory { padding: 1rem 0 5.5rem; }
 .service-directory article { display: grid; grid-template-columns: minmax(260px, .78fr) minmax(0, 1.22fr); gap: clamp(2rem, 8vw, 8rem); padding: 3.2rem 0; border-top: 1px solid var(--line); }
+.service-directory article:first-child { border-top: 0; }
 .service-directory article:last-child { border-bottom: 1px solid var(--line); }
 .service-directory-heading h2 { margin: .8rem 0 1rem; max-width: 13ch; font-size: clamp(1.9rem, 3vw, 3rem); }
 .service-directory-heading p { max-width: 32ch; margin-bottom: 0; color: var(--ink-soft); }
