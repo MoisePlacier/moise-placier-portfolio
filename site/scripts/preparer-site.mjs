@@ -7,14 +7,11 @@ import { spawnSync } from "node:child_process";
 const scriptDirectory = dirname(fileURLToPath(import.meta.url));
 const siteRoot = resolve(scriptDirectory, "..");
 const projectRoot = resolve(siteRoot, "..");
-const python = resolve(projectRoot, ".venv", "bin", "python");
+const localPython = resolve(projectRoot, ".venv", "bin", "python");
+const python = existsSync(localPython) ? localPython : (process.env.PYTHON ?? "python3");
 const cataloguePath = "site/src/data/catalogue.json";
 const documentsSource = resolve(projectRoot, "documents", "publics");
 const documentsTarget = resolve(siteRoot, "public", "documents");
-
-if (!existsSync(python)) {
-  throw new Error("Environnement Python introuvable : crée ou active .venv avant de construire le site.");
-}
 
 const result = spawnSync(
   python,
