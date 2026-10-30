@@ -50,12 +50,13 @@ nav a.active, nav a:hover { color: var(--ink); }
 .eyebrow { color: var(--muted); display: block; margin-bottom: 1rem; }
 .hero-grid { display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(260px, .65fr); gap: clamp(3rem, 9vw, 9rem); align-items: end; }
 .hero-portrait-card { width: min(100%, 330px); justify-self: end; }
+@media (min-width: 761px) { .hero-portrait-card { transform: translateX(-2cm); } }
 .hero-portrait-card .hero-portrait { margin: 0; }
 h1 { font: 400 clamp(3.8rem, 9vw, 7.8rem)/.89 var(--serif); letter-spacing: -.075em; max-width: 8ch; }
 h1 em { color: var(--accent-strong); font-weight: 400; }
 .hero-lead { max-width: 53ch; color: var(--ink-soft); font-size: 1.1rem; margin: 2rem 0; }
 .hero-title { margin: 1.8rem 0 -.7rem; color: var(--accent-strong); font-size: .82rem; font-weight: 800; letter-spacing: .07em; text-transform: uppercase; }
-.hero-availability { max-width: 53ch; margin: -1rem 0 2rem; color: var(--ink-soft); font-size: .9rem; font-weight: 700; }
+.hero-availability { max-width: 53ch; margin: .25rem 0 2rem; color: var(--ink-soft); font-size: .9rem; font-weight: 700; line-height: 1.28; }
 .hero-actions { display: flex; gap: 1.4rem; align-items: center; flex-wrap: wrap; }
 .button { display: inline-flex; gap: 1.1rem; align-items: center; padding: .9rem 1.1rem; border-radius: 999px; font-size: .9rem; font-weight: 700; }
 .button-dark { background: var(--deep); color: var(--deep-text); }

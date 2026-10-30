@@ -56,16 +56,6 @@ const navigationCards = [
         <span class="eyebrow">{prestations.page.surtitre}</span>
         <h2>{prestations.page.titre}</h2>
       </div>
-      <a class="text-link" href={withBase("/prestations/")}>Voir les prestations <span>→</span></a>
-    </div>
-    <div class="service-strip">
-      {prestations.page.expertises.map((expertise, index) => (
-        <article>
-          <span>0{index + 1}</span>
-          <h3>{expertise.titre}</h3>
-          <p>{expertise.resume}</p>
-        </article>
-      ))}
     </div>
   </section>
 
