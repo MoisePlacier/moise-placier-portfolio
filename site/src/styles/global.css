@@ -49,6 +49,7 @@ nav a.active, nav a:hover { color: var(--ink); }
 .hero { padding: 3.8rem 0 5.8rem; }
 .eyebrow { color: var(--muted); display: block; margin-bottom: 1rem; }
 .hero-grid { display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(260px, .65fr); gap: clamp(3rem, 9vw, 9rem); align-items: end; }
+.hero-grid--single { grid-template-columns: minmax(0, 1fr); }
 h1 { font: 400 clamp(3.8rem, 9vw, 7.8rem)/.89 var(--serif); letter-spacing: -.075em; max-width: 8ch; }
 h1 em { color: var(--accent-strong); font-weight: 400; }
 .hero-lead { max-width: 53ch; color: var(--ink-soft); font-size: 1.1rem; margin: 2rem 0; }
@@ -328,6 +329,8 @@ h2 { font: 400 clamp(2rem, 4vw, 3.6rem)/1 var(--serif); letter-spacing: -.045em;
 .project-card h2 { margin-top: 1.5rem; }
 .project-card p { color: var(--muted); font-size: .92rem; }
 .project-meta { margin-top: auto; display: flex; justify-content: space-between; gap: 1rem; font-size: .78rem; color: var(--muted); }
+.home-navigation { padding-top: 2.4rem; }
+.home-navigation .project-card > .content-visual { aspect-ratio: 4 / 3; }
 .project-description { padding: 1.5rem 0 3rem; border-bottom: 1px solid var(--line); }
 .project-description p { max-width: 74ch; font-size: 1.1rem; }
 .technical-report { padding: 5.5rem 0 7rem; }
