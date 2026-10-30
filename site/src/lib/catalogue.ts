@@ -127,7 +127,7 @@ export function publicProofs(objectId: string) {
 
 export function publicDocumentUrl(source: Source): string | undefined {
   if (!source.fichier) return undefined;
-  return `/${source.fichier.replace(/^documents\/publics\//, "documents/")}`;
+  return withBase(`/${source.fichier.replace(/^documents\/publics\//, "documents/")}`);
 }
 
 export function skillsFor(realisation: CatalogueObject): CatalogueObject[] {
@@ -155,3 +155,4 @@ export function byDomain() {
     return groups;
   }, {});
 }
+import { withBase } from "./paths";

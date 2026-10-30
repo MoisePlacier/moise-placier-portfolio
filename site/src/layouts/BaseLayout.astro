@@ -1,6 +1,7 @@
 ---
 import "../styles/global.css";
 import { prestations } from "../lib/catalogue";
+import { withBase } from "../lib/paths";
 
 interface Props {
   title?: string;
@@ -30,16 +31,16 @@ const pathname = Astro.url.pathname;
     <header class="site-header">
       <div class="site-header-inner">
         <div class="header-home-actions">
-          <a class="monogram" href="/" aria-label="Accueil">MP</a>
-          {headerBackHref && <a class="header-back-link" href={headerBackHref}>↩ Retour au parcours</a>}
+          <a class="monogram" href={withBase("/")} aria-label="Accueil">MP</a>
+          {headerBackHref && <a class="header-back-link" href={withBase(headerBackHref)}>↩ Retour au parcours</a>}
         </div>
         <nav aria-label="Navigation principale">
-          <a class:list={[{ active: pathname.startsWith("/prestations") }]} href="/prestations/">Prestations</a>
-          <a class:list={[{ active: pathname.startsWith("/experiences") }]} href="/experiences/">Parcours</a>
-          <a class:list={[{ active: pathname.startsWith("/projets") }]} href="/projets/">Projets</a>
-          <a class:list={[{ active: pathname.startsWith("/competences") }]} href="/competences/">Compétences</a>
+          <a class:list={[{ active: pathname.includes("/prestations") }]} href={withBase("/prestations/")}>Prestations</a>
+          <a class:list={[{ active: pathname.includes("/experiences") }]} href={withBase("/experiences/")}>Parcours</a>
+          <a class:list={[{ active: pathname.includes("/projets") }]} href={withBase("/projets/")}>Projets</a>
+          <a class:list={[{ active: pathname.includes("/competences") }]} href={withBase("/competences/")}>Compétences</a>
         </nav>
-        <a class="header-contact" href="/prestations/#contact">{prestations.appel_action.libelle} <span>↗</span></a>
+        <a class="header-contact" href={withBase("/prestations/#contact")}>{prestations.appel_action.libelle} <span>↗</span></a>
       </div>
     </header>
     <main>
@@ -50,7 +51,7 @@ const pathname = Astro.url.pathname;
         <span>Moïse Placier</span>
         <span>{prestations.pied_de_page}</span>
         <a href="mailto:moise.placier@gmail.com">moise.placier@gmail.com</a>
-        <a href="/mentions-legales/">Mentions légales & confidentialité</a>
+        <a href={withBase("/mentions-legales/")}>Mentions légales & confidentialité</a>
       </div>
     </footer>
   </body>

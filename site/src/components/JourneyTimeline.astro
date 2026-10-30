@@ -1,6 +1,7 @@
 ---
 import { scaleUtc } from "d3-scale";
 import { experiences, formations, formatPeriod } from "../lib/catalogue";
+import { withBase } from "../lib/paths";
 
 type PresencePhysique = {
   periode: { debut: string | number; fin: string | number };
@@ -365,7 +366,7 @@ function ribbonPath(item: PositionedExperience): string {
               const period = formatPeriod(item.periode);
               const tagLeft = item.tagCenter - item.tagWidth / 2;
               return (
-                <a class={`journey-experience-link brand-${visual.brand}`} href={`/experiences/${item.parentId}/`} tabindex="0" aria-label={`${visual.label}, ${period}, ${item.lieu}. Ouvrir le détail.`} data-journey-tooltip={JSON.stringify({ category: "Expérience professionnelle", title: item.title, role: item.subtitle, context: `${period} · ${item.lieu}`, summary: item.summary, action: "Cliquez pour voir les détails" })}>
+                <a class={`journey-experience-link brand-${visual.brand}`} href={withBase(`/experiences/${item.parentId}/`)} tabindex="0" aria-label={`${visual.label}, ${period}, ${item.lieu}. Ouvrir le détail.`} data-journey-tooltip={JSON.stringify({ category: "Expérience professionnelle", title: item.title, role: item.subtitle, context: `${period} · ${item.lieu}`, summary: item.summary, action: "Cliquez pour voir les détails" })}>
                   <path class="journey-experience-ribbon" d={ribbonPath(item)} />
                   <rect class="journey-experience-segment" x={item.xStart} y="0" width={item.xEnd - item.xStart} height="8" rx="3" />
                   <rect class="journey-experience-tag" x={tagLeft} y={item.tagTop} width={item.tagWidth} height={item.tagHeight} rx="14" />

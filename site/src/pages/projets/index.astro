@@ -2,6 +2,7 @@
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import ContentVisual from "../../components/ContentVisual.astro";
 import { projets } from "../../lib/catalogue";
+import { withBase } from "../../lib/paths";
 ---
 
 <BaseLayout title="Projets académiques — Moïse Placier" description="Projets académiques en données du vivant, géomatique et bioinformatique.">
@@ -12,7 +13,7 @@ import { projets } from "../../lib/catalogue";
   </section>
   <section class="shell project-grid">
     {projets.map((project, index) => (
-      <a class="project-card" href={`/projets/${project.id}/`}>
+      <a class="project-card" href={withBase(`/projets/${project.id}/`)}>
         <ContentVisual itemId={project.id} />
         <div class="project-card-content">
           <span class="card-index">0{index + 1}</span>

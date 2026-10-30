@@ -1,6 +1,7 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import { experiences, projets, catalogue, prestations } from "../lib/catalogue";
+import { withBase } from "../lib/paths";
 
 const identity = catalogue.identite as Record<string, string>;
 ---
@@ -15,19 +16,19 @@ const identity = catalogue.identite as Record<string, string>;
         <p class="hero-lead">{prestations.accroche}</p>
         <p class="hero-availability">{prestations.disponibilite}</p>
         <div class="hero-actions">
-          <a class="button button-dark" href="/prestations/#contact">{prestations.appel_action.libelle} <span>→</span></a>
-          <a class="text-link" href="/experiences/">Explorer le parcours <span>→</span></a>
+          <a class="button button-dark" href={withBase("/prestations/#contact")}>{prestations.appel_action.libelle} <span>→</span></a>
+          <a class="text-link" href={withBase("/experiences/")}>Explorer le parcours <span>→</span></a>
         </div>
       </div>
       <aside class="identity-card audience-card">
         <figure class="hero-portrait">
-          <img src="/visuals/portrait-moise.jpg" alt="Portrait de Moïse Placier" />
+          <img src={withBase("/visuals/portrait-moise.jpg")} alt="Portrait de Moïse Placier" />
         </figure>
         <span class="kicker">Deux chemins</span>
         <p>Un même socle technique, pour rejoindre une équipe ou mener une mission ciblée.</p>
         <div class="audience-links">
           {prestations.publics.map((publicCible) => (
-            <a href={publicCible.lien}>
+            <a href={withBase(publicCible.lien)}>
               <strong>{publicCible.titre}</strong>
               <span>{publicCible.description}</span>
               <small>{publicCible.libelle_lien} <b>→</b></small>
@@ -44,7 +45,7 @@ const identity = catalogue.identite as Record<string, string>;
         <span class="eyebrow">{prestations.page.surtitre}</span>
         <h2>{prestations.page.titre}</h2>
       </div>
-      <a class="text-link" href="/prestations/">Voir les prestations <span>→</span></a>
+      <a class="text-link" href={withBase("/prestations/")}>Voir les prestations <span>→</span></a>
     </div>
     <div class="service-strip">
       {prestations.page.expertises.map((expertise, index) => (
@@ -76,6 +77,6 @@ const identity = catalogue.identite as Record<string, string>;
     <span class="eyebrow">Projets</span>
     <h2>Modélisation, machine learning et données du vivant.</h2>
     <p>Trois projets académiques sur les protéines, les cultures et la génomique végétale.</p>
-    <a class="button button-light" href="/projets/">Voir les projets <span>→</span></a>
+    <a class="button button-light" href={withBase("/projets/")}>Voir les projets <span>→</span></a>
   </section>
 </BaseLayout>

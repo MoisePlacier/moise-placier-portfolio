@@ -1,4 +1,6 @@
 ---
+import { withBase } from "../lib/paths";
+
 type Logo = {
   alt: string;
   src: string;
@@ -35,7 +37,7 @@ const logos = logosByExperience[experienceId] ?? [];
   <div class:list={["experience-logos", `experience-logos--${variant}`, logos.length === 1 && "experience-logos--single"]} aria-label="Sites officiels des organisations">
     {logos.map((logo) => (
       <a class:list={["experience-logo", `experience-logo--${logo.key}`]} href={logo.href} target="_blank" rel="noopener noreferrer" aria-label={`${logo.alt} — site officiel (nouvel onglet)`}>
-        <img src={logo.src} alt={logo.alt} loading="lazy" />
+        <img src={withBase(logo.src)} alt={logo.alt} loading="lazy" />
       </a>
     ))}
   </div>

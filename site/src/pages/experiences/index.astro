@@ -4,6 +4,7 @@ import ContentVisual from "../../components/ContentVisual.astro";
 import ExperienceLogos from "../../components/ExperienceLogos.astro";
 import JourneyTimeline from "../../components/JourneyTimeline.astro";
 import { experiences, formations, formatPeriod, type CatalogueObject } from "../../lib/catalogue";
+import { withBase } from "../../lib/paths";
 
 type FormationLogo = { src: string; alt: string };
 type FormationAsset = { imageSrc: string; imageAlt: string; logos: FormationLogo[] };
@@ -11,29 +12,29 @@ type FormationCardOverride = { title: string; subtitle: string; highlights?: str
 
 const formationAssets: Record<string, FormationAsset> = {
   formation_cpge: {
-    imageSrc: "/visuals/formation-chaptal.png",
+    imageSrc: withBase("/visuals/formation-chaptal.png"),
     imageAlt: "Bâtiment du lycée Chaptal à Paris",
-    logos: [{ src: "/organisations/formation-chaptal-logo.png", alt: "Logo du lycée Chaptal" }]
+    logos: [{ src: withBase("/organisations/formation-chaptal-logo.png"), alt: "Logo du lycée Chaptal" }]
   },
   formation_ensat: {
-    imageSrc: "/visuals/formation-ensat.jpg",
+    imageSrc: withBase("/visuals/formation-ensat.jpg"),
     imageAlt: "Campus de l’ENSAT à Toulouse",
-    logos: [{ src: "/organisations/formation-ensat-logo.png", alt: "Logo de Toulouse INP ENSAT" }]
+    logos: [{ src: withBase("/organisations/formation-ensat-logo.png"), alt: "Logo de Toulouse INP ENSAT" }]
   },
   formation_m2_data_bio: {
-    imageSrc: "/visuals/formation-institut-agro-rennes.jpg",
+    imageSrc: withBase("/visuals/formation-institut-agro-rennes.jpg"),
     imageAlt: "Bâtiment Masure de l’Institut Agro Rennes-Angers",
     logos: [
-      { src: "/organisations/formation-institut-agro-rennes-logo.png", alt: "Logo de l’Institut Agro Rennes-Angers" },
-      { src: "/organisations/formation-ensai-logo.webp", alt: "Logo de l’ENSAI" },
-      { src: "/organisations/formation-ehesp-logo.png", alt: "Logo de l’EHESP" },
-      { src: "/organisations/formation-rennes2-logo.webp", alt: "Logo de l’Université Rennes 2" }
+      { src: withBase("/organisations/formation-institut-agro-rennes-logo.png"), alt: "Logo de l’Institut Agro Rennes-Angers" },
+      { src: withBase("/organisations/formation-ensai-logo.webp"), alt: "Logo de l’ENSAI" },
+      { src: withBase("/organisations/formation-ehesp-logo.png"), alt: "Logo de l’EHESP" },
+      { src: withBase("/organisations/formation-rennes2-logo.webp"), alt: "Logo de l’Université Rennes 2" }
     ]
   },
   formation_erasmus_bht: {
-    imageSrc: "/visuals/formation-bht.jpg",
+    imageSrc: withBase("/visuals/formation-bht.jpg"),
     imageAlt: "Campus de la Berliner Hochschule für Technik",
-    logos: [{ src: "/organisations/formation-bht-logo.png", alt: "Logo de la Berliner Hochschule für Technik" }]
+    logos: [{ src: withBase("/organisations/formation-bht-logo.png"), alt: "Logo de la Berliner Hochschule für Technik" }]
   }
 };
 
@@ -84,7 +85,7 @@ const formationCards = formationOrder
       {experiences.map((experience, index) => (
         <li id={`experience-${experience.id}`}>
           <div class="experience-directory-row">
-            <a class="experience-directory-media" href={`/experiences/${experience.id}/`} aria-label={`Ouvrir l’expérience ${experience.organisation}`}>
+            <a class="experience-directory-media" href={withBase(`/experiences/${experience.id}/`)} aria-label={`Ouvrir l’expérience ${experience.organisation}`}>
               <ContentVisual itemId={experience.id} />
             </a>
             <div class="experience-directory-panel">
@@ -93,7 +94,7 @@ const formationCards = formationOrder
                   <span class="experience-directory-index">{String(index + 1).padStart(2, "0")}</span>
                   <span class="experience-directory-meta">{formatPeriod(experience.periode)} · {experience.lieu}</span>
                 </div>
-                <h2><a class="experience-directory-title" href={`/experiences/${experience.id}/`}>{experience.organisation}</a></h2>
+                <h2><a class="experience-directory-title" href={withBase(`/experiences/${experience.id}/`)}>{experience.organisation}</a></h2>
                 <p class="experience-directory-role">{experience.intitule_officiel}</p>
                 <p>{experience.resume}</p>
               </div>

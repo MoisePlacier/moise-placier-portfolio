@@ -1,4 +1,6 @@
 ---
+import { withBase } from "../lib/paths";
+
 type Visual = {
   src: string;
   alt: string;
@@ -61,6 +63,6 @@ const selectedVisual = variant === "gsk-hero" && itemId === "exp_gsk_2024"
 
 {selectedVisual && (
   <figure class:list={["content-visual", `content-visual--${variant}`, `content-visual--${itemId}`]}>
-    <img src={selectedVisual.src} alt={selectedVisual.alt} loading={variant === "detail" || variant === "gsk-hero" || variant === "inserm-hero" || variant === "normandie-hero" ? "eager" : "lazy"} decoding="async" />
+    <img src={withBase(selectedVisual.src)} alt={selectedVisual.alt} loading={variant === "detail" || variant === "gsk-hero" || variant === "inserm-hero" || variant === "normandie-hero" ? "eager" : "lazy"} decoding="async" />
   </figure>
 )}
