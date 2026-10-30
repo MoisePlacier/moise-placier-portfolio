@@ -32,7 +32,7 @@ const navigationCards = [
 <BaseLayout description={identity.presentation}>
   <section class="hero shell">
     <div class="eyebrow">{prestations.positionnement}</div>
-    <div class="hero-grid hero-grid--single">
+    <div class="hero-grid">
       <div>
         <h1>Moïse<br /><em>Placier</em></h1>
         <p class="hero-title">{prestations.titre_accueil}</p>
@@ -42,6 +42,11 @@ const navigationCards = [
           <a class="text-link" href={withBase("/experiences/")}>Explorer le parcours <span>→</span></a>
         </div>
       </div>
+      <aside class="hero-portrait-card">
+        <figure class="hero-portrait">
+          <img src={withBase("/visuals/portrait-moise.jpg")} alt="Portrait de Moïse Placier" />
+        </figure>
+      </aside>
     </div>
   </section>
 
