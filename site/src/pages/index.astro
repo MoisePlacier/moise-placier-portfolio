@@ -7,27 +7,24 @@ const identity = catalogue.identite as Record<string, string>;
 const navigationCards = [
   {
     title: "Parcours & CV",
-    description: "Expériences, formations et compétences au fil du parcours.",
+    phrase: "Relier l’agronomie, la recherche et les données.",
     label: "Explorer le parcours",
     href: "/experiences/",
-    image: "/visuals/formation-institut-agro-rennes.jpg",
-    alt: "Bâtiment de l’Institut Agro Rennes-Angers"
+    tone: "home-navigation-card--deep"
   },
   {
     title: "Réalisations",
-    description: "Articles sur les méthodes, outils et résultats développés au fil des projets.",
+    phrase: "Des méthodes, des outils et des résultats documentés.",
     label: "Voir les réalisations",
     href: "/projets/",
-    image: "/visuals/project-protein-structure.webp",
-    alt: "Visualisation de la structure d’une protéine"
+    tone: "home-navigation-card--sage"
   },
   {
     title: "Conseil & prestations indépendantes",
-    description: "Data science, statistiques et accompagnement méthodologique.",
+    phrase: "Faire de vos données un levier de décision.",
     label: "Découvrir les prestations",
     href: "/prestations/",
-    image: "/visuals/portrait-moise.jpg",
-    alt: "Portrait de Moïse Placier"
+    tone: "home-navigation-card--cream"
   }
 ];
 ---
@@ -68,18 +65,12 @@ const navigationCards = [
   </section>
 
   <section class="shell section home-navigation">
-    <div class="project-grid">
+    <div class="home-navigation-grid">
       {navigationCards.map((card, index) => (
-        <a class="project-card" href={withBase(card.href)}>
-          <figure class="content-visual">
-            <img src={withBase(card.image)} alt={card.alt} loading="lazy" decoding="async" />
-          </figure>
-          <div class="project-card-content">
-            <span class="card-index">0{index + 1}</span>
-            <h2>{card.title}</h2>
-            <p>{card.description}</p>
-            <div class="project-meta"><span>{card.label}</span><b>→</b></div>
-          </div>
+        <a class:list={["home-navigation-card", card.tone]} href={withBase(card.href)}>
+          <span class="card-index">0{index + 1} · {card.title}</span>
+          <h2>{card.phrase}</h2>
+          <span class="home-navigation-link">{card.label} <b>→</b></span>
         </a>
       ))}
     </div>
