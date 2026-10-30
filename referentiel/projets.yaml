@@ -3,7 +3,7 @@ projets:
 - id: prj_protein_structure_2025
   titre: Prédiction de la structure secondaire de protéines à partir des séquences
   date: '2025-11-21'
-  cadre: Projet académique en apprentissage automatique / biologie computationnelle
+  cadre: Réalisation académique · apprentissage automatique et biologie computationnelle
   equipe: Faustine Boulet, Constance Beaufils, Moïse Placier
   attribution:
     statut: contribution_principale_declaree_par_le_candidat
@@ -73,7 +73,7 @@ projets:
 - id: prj_crop_sentinel2_2025
   titre: Classification des cultures à partir de séries temporelles Sentinel-2
   date: 2025-07
-  cadre: Projet de Machine Learning, MSc Data Science, BHT Berlin
+  cadre: Réalisation académique · M.Sc. Data Science, BHT Berlin
   equipe: Giovanni Setaro, Noé Coursimaux, Moïse Placier
   attribution:
     statut: contribution_principale_declaree_par_le_candidat
@@ -170,7 +170,7 @@ projets:
 - id: prj_populus_genomics_2026
   titre: Prédiction de phénotypes chez Populus nigra par sélection génomique de variables
   date: '2026-02-08'
-  cadre: Projet de sciences des données en partenariat avec INRAE BioForA (Val de Loire)
+  cadre: Réalisation académique · partenariat avec INRAE BioForA (Val de Loire)
   equipe: Moïse Placier et Fabrice Traoré
   attribution:
     statut: contribution_principale_declaree_par_le_candidat

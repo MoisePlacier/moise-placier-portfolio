@@ -37,7 +37,7 @@ const pathname = Astro.url.pathname;
         <nav aria-label="Navigation principale">
           <a class:list={[{ active: pathname.includes("/prestations") }]} href={withBase("/prestations/")}>Prestations</a>
           <a class:list={[{ active: pathname.includes("/experiences") }]} href={withBase("/experiences/")}>Parcours</a>
-          <a class:list={[{ active: pathname.includes("/projets") }]} href={withBase("/projets/")}>Projets</a>
+          <a class:list={[{ active: pathname.includes("/projets") }]} href={withBase("/projets/")}>Réalisations</a>
           <a class:list={[{ active: pathname.includes("/competences") }]} href={withBase("/competences/")}>Compétences</a>
         </nav>
         <a class="header-contact" href={withBase("/prestations/#contact")}>{prestations.appel_action.libelle} <span>↗</span></a>

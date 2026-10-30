@@ -5,18 +5,18 @@ import { projets } from "../../lib/catalogue";
 import { withBase } from "../../lib/paths";
 ---
 
-<BaseLayout title="Projets académiques — Moïse Placier" description="Projets académiques en données du vivant, géomatique et bioinformatique.">
+<BaseLayout title="Réalisations — Moïse Placier" description="Articles documentant des réalisations en données du vivant, géomatique et bioinformatique.">
   <section class="page-hero shell">
-    <span class="eyebrow">Projets académiques</span>
-    <h1>Données du vivant, modélisation et apprentissage automatique.</h1>
-    <p>Des travaux collectifs présentés pour leur démarche, leurs résultats et les méthodes mobilisées.</p>
+    <span class="eyebrow">Réalisations</span>
+    <h1>Méthodes, outils et résultats mis en œuvre.</h1>
+    <p>Des articles qui documentent la démarche, les résultats et les méthodes mobilisées, au fil de réalisations académiques puis professionnelles.</p>
   </section>
   <section class="shell project-grid">
     {projets.map((project, index) => (
       <a class="project-card" href={withBase(`/projets/${project.id}/`)}>
         <ContentVisual itemId={project.id} />
         <div class="project-card-content">
-          <span class="card-index">0{index + 1}</span>
+          <span class="card-index">Article 0{index + 1}</span>
           <h2>{project.titre}</h2>
           <p>{project.resume}</p>
           <div class="project-meta"><span>{project.cadre}</span><b>→</b></div>
