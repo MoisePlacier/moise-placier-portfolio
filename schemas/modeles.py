@@ -125,14 +125,24 @@ class ExpertisePrestation(Model):
 class ModalitesCollaboration(Model):
     titre: str
     texte: str
+    texte_secondaire: str | None = None
     conclusion: str
+
+
+class SectionPrestations(Model):
+    titre: str
+    resume: str
+    texte: str
+    texte_secondaire: str | None = None
 
 
 class PagePrestations(Model):
     surtitre: str
     titre: str
     introduction: str
+    introduction_secondaire: str | None = None
     expertises: list[ExpertisePrestation]
+    ingenierie: SectionPrestations | None = None
     modalites: ModalitesCollaboration
 
 

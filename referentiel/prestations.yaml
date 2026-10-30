@@ -6,7 +6,7 @@ prestations:
     J’accompagne les équipes de recherche, les acteurs agricoles et les entreprises
     dans l’analyse de données, la modélisation statistique et le développement
     d’outils scientifiques reproductibles.
-  disponibilite: Disponible pour des missions de conseil et de développement, en France et à distance.
+  disponibilite: Disponible pour des missions de conseil, d’analyse et de développement, en France et à distance.
   appel_action:
     libelle: Discuter d’un projet
     objet_email: Échange autour d’un projet
@@ -25,39 +25,57 @@ prestations:
     surtitre: Conseil & prestations indépendantes
     titre: De la donnée brute à des résultats exploitables.
     introduction: >-
-      Ingénieur agronome spécialisé en data science et statistiques appliquées,
-      j’interviens auprès des équipes de recherche, des entreprises et des acteurs
-      du monde agricole pour concevoir des solutions adaptées à leurs problématiques.
+      Ingénieur agronome spécialisé en statistiques appliquées et data science,
+      j'accompagne les équipes de recherche, les bureaux d'études et les entreprises
+      dans l'analyse, la modélisation et la valorisation de leurs données.
+    introduction_secondaire: >-
+      À l'interface des sciences du vivant, de l'agronomie et de l'ingénierie des données,
+      je développe des méthodes et des outils adaptés aux problématiques scientifiques et
+      opérationnelles de chaque projet.
     expertises:
       - id: analyse-recherche
-        titre: Analyse statistique & recherche scientifique
-        resume: Des méthodes lisibles, des analyses solides et des résultats communicables.
+        titre: Statistiques & recherche appliquée
+        resume: Des analyses rigoureuses, des méthodes explicites et des résultats interprétables.
         prestations:
-          - Conception de plans d’analyse et accompagnement méthodologique.
-          - Modélisation statistique, biostatistique et méthodes d’inférence.
-          - Production de rapports reproductibles avec R, Python et Quarto.
-          - Visualisation de résultats et assistance à la rédaction scientifique.
-      - id: data-outils
-        titre: Data science & développement d’outils
-        resume: Des traitements structurés, documentés et faciles à reprendre.
+          - Conception de plans d’expériences et de stratégies d’analyse statistique.
+          - Modélisation statistique, biostatistiques et méthodes d’inférence.
+          - Analyse de données expérimentales, biologiques et environnementales.
+          - Production de rapports reproductibles, visualisation et valorisation de résultats scientifiques.
+      - id: agronomie-environnement-spatial
+        titre: Agronomie, environnement & données spatiales
+        resume: Croiser les observations de terrain et les données géographiques pour comprendre les systèmes étudiés.
         prestations:
-          - Développement de scripts, pipelines de données et outils d’aide à la décision.
-          - Automatisation de traitements et de rapports.
-          - Modélisation prédictive et évaluation de modèles.
-          - Documentation et livraison de solutions reproductibles.
-      - id: agronomie-procedes
-        titre: Agronomie & procédés industriels
-        resume: Des données reliées aux réalités de terrain, de production et d’expérimentation.
+          - Analyse de données agronomiques et environnementales.
+          - Traitement de données géographiques, séries temporelles et images satellites.
+          - Statistiques spatiales, cartographie et caractérisation de la variabilité territoriale.
+          - Développement d’indicateurs et d’outils d’aide à la décision pour l’agriculture et l’environnement.
+      - id: procedes-industriels
+        titre: Données industrielles & optimisation des procédés
+        resume: Transformer les données de production et d’expérimentation en leviers d’amélioration.
         prestations:
-          - Analyse de données agricoles et optimisation de processus.
-          - Développement d’outils d’aide à la décision agronomique.
-          - Valorisation des données de production, de capteurs et d’équipements.
-          - Modélisation de procédés et identification de leviers d’amélioration.
+          - Analyse de données de procédés, de production et de contrôle qualité.
+          - Exploitation de données de capteurs, d’équipements et de suivi industriel.
+          - Modélisation de procédés et identification de facteurs influençant les performances.
+          - Conception d’outils de suivi, de prédiction et d’aide à la décision.
+    ingenierie:
+      titre: Ingénierie des données & développement d’outils
+      resume: Des solutions légères, documentées et faciles à reprendre.
+      texte: >-
+        Selon les besoins, ces interventions peuvent inclure le développement de scripts et de
+        pipelines de données, l’automatisation de traitements, la création d’applications légères
+        ou de tableaux de bord, ainsi que la production de rapports reproductibles avec R, Python
+        et Quarto.
+      texte_secondaire: >-
+        Je privilégie des solutions proportionnées aux besoins, utilisant autant que possible les
+        données, les logiciels et les infrastructures déjà disponibles.
     modalites:
       titre: Modalités de collaboration
       texte: >-
-        Missions ponctuelles ou projets de plusieurs semaines, à distance ou sur site
-        selon les besoins. Chaque prestation fait l’objet d’un échange préalable pour
-        définir le périmètre, les livrables et les modalités de collaboration.
-      conclusion: Vous avez un projet ou une problématique à explorer ? Contactez-moi pour en discuter.
+        J'interviens directement auprès des équipes scientifiques et techniques, mais également en
+        renfort de bureaux d'études, de cabinets de conseil et de consultants indépendants.
+      texte_secondaire: >-
+        Les missions peuvent aller d'une analyse ponctuelle à un projet de plusieurs semaines, à
+        distance ou sur site. Chaque collaboration débute par un échange pour préciser les objectifs,
+        les données disponibles, les livrables et les modalités d'intervention.
+      conclusion: Un projet, un besoin ponctuel ou une expertise complémentaire à mobiliser ?
   pied_de_page: Ingénieur & Data Scientist indépendant

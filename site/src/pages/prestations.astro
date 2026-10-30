@@ -1,9 +1,6 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
-import { catalogue, prestations } from "../lib/catalogue";
-
-const identity = catalogue.identite as Record<string, string>;
-const contactHref = `mailto:${identity.email}?subject=${encodeURIComponent(prestations.appel_action.objet_email)}`;
+import { prestations } from "../lib/catalogue";
 ---
 
 <BaseLayout title="Conseil & prestations — Moïse Placier" description={prestations.page.introduction}>
@@ -11,6 +8,7 @@ const contactHref = `mailto:${identity.email}?subject=${encodeURIComponent(prest
     <span class="eyebrow">{prestations.page.surtitre}</span>
     <h1>{prestations.page.titre}</h1>
     <p>{prestations.page.introduction}</p>
+    {prestations.page.introduction_secondaire && <p>{prestations.page.introduction_secondaire}</p>}
     <span class="services-availability">{prestations.disponibilite}</span>
   </section>
 
@@ -29,6 +27,19 @@ const contactHref = `mailto:${identity.email}?subject=${encodeURIComponent(prest
     ))}
   </section>
 
+  {prestations.page.ingenierie && (
+    <section class="shell service-engineering">
+      <div>
+        <h2>{prestations.page.ingenierie.titre}</h2>
+      </div>
+      <div>
+        <p class="service-engineering-lead">{prestations.page.ingenierie.resume}</p>
+        <p>{prestations.page.ingenierie.texte}</p>
+        {prestations.page.ingenierie.texte_secondaire && <p>{prestations.page.ingenierie.texte_secondaire}</p>}
+      </div>
+    </section>
+  )}
+
   <section class="shell collaboration-panel" id="contact">
     <div>
       <span class="eyebrow">{prestations.page.modalites.titre}</span>
@@ -36,7 +47,7 @@ const contactHref = `mailto:${identity.email}?subject=${encodeURIComponent(prest
     </div>
     <div>
       <p>{prestations.page.modalites.texte}</p>
-      <a class="button button-light" href={contactHref}>{prestations.appel_action.libelle} <span>→</span></a>
+      {prestations.page.modalites.texte_secondaire && <p>{prestations.page.modalites.texte_secondaire}</p>}
     </div>
   </section>
 </BaseLayout>

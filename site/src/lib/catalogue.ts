@@ -40,15 +40,23 @@ type Prestations = {
     surtitre: string;
     titre: string;
     introduction: string;
+    introduction_secondaire?: string;
     expertises: Array<{
       id: string;
       titre: string;
       resume: string;
       prestations: string[];
     }>;
+    ingenierie?: {
+      titre: string;
+      resume: string;
+      texte: string;
+      texte_secondaire?: string;
+    };
     modalites: {
       titre: string;
       texte: string;
+      texte_secondaire?: string;
       conclusion: string;
     };
   };
