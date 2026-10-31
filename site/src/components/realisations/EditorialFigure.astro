@@ -1,0 +1,10 @@
+---
+import { withBase } from "../../lib/paths";
+
+const { src, alt, caption } = Astro.props as { src: string; alt: string; caption?: string };
+---
+
+<figure class="editorial-figure">
+  <img src={withBase(src)} alt={alt} loading="lazy" />
+  {caption && <figcaption>{caption}</figcaption>}
+</figure>

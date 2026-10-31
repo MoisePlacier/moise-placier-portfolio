@@ -1,0 +1,31 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { withBase } from "../../lib/paths";
+
+const realisations = (await getCollection("realisations"))
+  .sort((a, b) => Number(b.data.featured) - Number(a.data.featured) || b.data.date.localeCompare(a.data.date));
+---
+
+<BaseLayout title="Réalisations — Moïse Placier" description="Études de cas et articles documentant des réalisations en science des données, agronomie et ingénierie.">
+  <section class="page-hero shell">
+    <span class="eyebrow">Réalisations</span>
+    <h1>Études de cas, méthodes et résultats.</h1>
+    <p>Une collection éditoriale indépendante du CV : chaque article présente un contexte, une démarche, des visuels et des résultats adaptés à son sujet.</p>
+  </section>
+  <section class="shell editorial-index">
+    <div class="editorial-card-grid">
+      {realisations.map((realisation, index) => (
+        <a class="editorial-card" href={withBase(`/realisations/${realisation.id}/`)}>
+          <img src={withBase(realisation.data.cover)} alt={realisation.data.coverAlt} loading={index === 0 ? "eager" : "lazy"} />
+          <div class="editorial-card-copy">
+            <span class="card-index">Étude de cas {String(index + 1).padStart(2, "0")}</span>
+            <h2>{realisation.data.title}</h2>
+            <p>{realisation.data.description}</p>
+            <span class="editorial-card-meta">Lire l’étude <b>→</b></span>
+          </div>
+        </a>
+      ))}
+    </div>
+  </section>
+</BaseLayout>

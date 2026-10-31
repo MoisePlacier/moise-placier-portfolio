@@ -1,0 +1,57 @@
+---
+title: Classer les cultures à partir de séries temporelles Sentinel-2
+description: Une étude de cas d’ingénierie géospatiale, de la préparation des données agricoles à une classification par deep learning.
+date: "2025"
+category: Étude de cas · data géospatiale & agronomie
+cover: /visuals/project-crop-classification.gif
+coverAlt: Animation de séries temporelles Sentinel-2 sur des parcelles agricoles
+tags:
+  - Télédétection
+  - Séries temporelles
+  - Deep learning
+  - Agronomie
+featured: true
+---
+
+import MetricGrid from "../../components/realisations/MetricGrid.astro";
+import EditorialFigure from "../../components/realisations/EditorialFigure.astro";
+import EditorialCallout from "../../components/realisations/EditorialCallout.astro";
+
+<section class="editorial-section">
+  <div class="editorial-section-heading">
+    <span class="eyebrow">01 · Le besoin</span>
+    <h2>Transformer des données spatiales en information exploitable.</h2>
+  </div>
+  <div class="editorial-copy">
+    <p>Cette étude de cas explore la classification des cultures à partir d’images Sentinel‑2 et du Registre parcellaire graphique 2023. L’enjeu était de construire une chaîne reproductible capable de faire dialoguer parcelles agricoles, rasters multi‑dates et modèles de classification.</p>
+    <p>Le résultat attendu n’était pas seulement un score de modèle : il fallait une démarche traçable, depuis la sélection des zones jusqu’à l’interprétation des performances sur des classes de cultures déséquilibrées.</p>
+    <MetricGrid items={[{ value: "40", label: "zones de 10 × 10 km étudiées" }, { value: "≈ 130 k", label: "parcelles agricoles intégrées" }, { value: "10 m", label: "résolution spatiale des cartes" }, { value: "+9,92", label: "points de macro‑F1 vs. XGBoost" }]} />
+  </div>
+</section>
+
+<section class="editorial-section">
+  <div class="editorial-section-heading">
+    <span class="eyebrow">02 · La démarche</span>
+    <h2>Rendre les séries comparables malgré les nuages.</h2>
+  </div>
+  <div class="editorial-copy">
+    <p>Les données ont été préparées à partir du RPG 2023 et de Sentinel‑2 L2A : harmonisation des systèmes de coordonnées, rasterisation des labels, filtrage des nuages via la Scene Classification Layer, composites mensuels et interpolation temporelle des lacunes.</p>
+    <p>Le pipeline produit ainsi un profil spectral régulier par pixel, nécessaire pour entraîner un CNN hybride combinant la dynamique temporelle des cultures et le contexte spatial des parcelles.</p>
+    <EditorialCallout>Ma contribution a porté sur l’extraction Sentinel‑2, la préparation du RPG, les composites temporels, l’architecture CNN et les scripts d’entraînement sur cluster.</EditorialCallout>
+  </div>
+</section>
+
+<EditorialFigure src="/restitutions/crop-classification/class-distribution.png" alt="Distribution des classes de cultures dans le jeu de données" caption="La forte inégalité entre classes rend les métriques macro indispensables pour évaluer les résultats au-delà de la seule accuracy." />
+
+<section class="editorial-section">
+  <div class="editorial-section-heading">
+    <span class="eyebrow">03 · Les résultats</span>
+    <h2>Comparer les modèles sans sur‑interpréter les scores.</h2>
+  </div>
+  <div class="editorial-copy">
+    <p>Le CNN temporel et spatial obtient une accuracy de 87,21 % et un macro‑F1 de 35,16 %, contre 80,45 % et 25,24 % pour le modèle XGBoost de comparaison. Le gain sur la métrique macro est particulièrement utile : il traduit une meilleure prise en compte des cultures minoritaires.</p>
+    <p>Ces résultats restent présentés comme des résultats expérimentaux. Le protocole de validation et le déséquilibre des classes invitent à discuter les limites de généralisation plutôt qu’à transformer les chiffres en promesse absolue.</p>
+  </div>
+</section>
+
+<EditorialFigure src="/restitutions/crop-classification/cnn-predictions.png" alt="Carte de prédictions de cultures produite par le modèle CNN" caption="Exemple de carte produite par le modèle CNN hybride à partir des séries Sentinel‑2 préparées." />

@@ -1,0 +1,14 @@
+---
+type Metric = { value: string; label: string };
+
+const { items } = Astro.props as { items: Metric[] };
+---
+
+<div class="editorial-metric-grid" aria-label="Chiffres clés">
+  {items.map((item) => (
+    <article class="editorial-metric">
+      <strong>{item.value}</strong>
+      <span>{item.label}</span>
+    </article>
+  ))}
+</div>

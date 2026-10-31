@@ -13,7 +13,7 @@ import { withBase } from "../../lib/paths";
   </section>
   <section class="shell project-grid">
     {projets.map((project, index) => (
-      <a class="project-card" href={withBase(`/projets/${project.id}/`)}>
+      <a class="project-card" href={withBase(project.id === "prj_crop_sentinel2_2025" ? "/realisations/sentinel-2/" : `/projets/${project.id}/`)}>
         <ContentVisual itemId={project.id} />
         <div class="project-card-content">
           <span class="card-index">Article 0{index + 1}</span>

@@ -1,0 +1,29 @@
+---
+import type { GetStaticPaths } from "astro";
+import { getCollection, render, type CollectionEntry } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { withBase } from "../../lib/paths";
+
+export const getStaticPaths: GetStaticPaths = async () => {
+  const realisations = await getCollection("realisations");
+  return realisations.map((realisation) => ({ params: { slug: realisation.id }, props: { realisation } }));
+};
+
+const { realisation } = Astro.props as { realisation: CollectionEntry<"realisations"> };
+const { Content } = await render(realisation);
+---
+
+<BaseLayout title={`${realisation.data.title} — Moïse Placier`} description={realisation.data.description}>
+  <section class="editorial-hero shell">
+    <a class="back-link" href={withBase("/realisations/")}>← Toutes les réalisations</a>
+    <span class="eyebrow">{realisation.data.category} · {realisation.data.date}</span>
+    <h1>{realisation.data.title}</h1>
+    <p>{realisation.data.description}</p>
+    <ul class="editorial-tags" aria-label="Thématiques">
+      {realisation.data.tags.map((tag: string) => <li>{tag}</li>)}
+    </ul>
+  </section>
+  <article class="shell editorial-article">
+    <Content />
+  </article>
+</BaseLayout>
